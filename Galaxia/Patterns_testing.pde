@@ -1,23 +1,3 @@
-import heronarts.lx.parameter.BoundedParameter;
-
-abstract class TemplePattern extends LXPattern {
-  protected final Temple model;
-
-  TemplePattern(LX lx) {
-    super(lx);
-    model = (Temple)lx.model;
-  }
-}
-
-abstract class TempleLayer extends LXLayer{
-  protected final Temple model;
-
-  TempleLayer(LX lx) {
-    super(lx);
-    model = (Temple)lx.model;
-  }
-}
-
 class MoveXPosition extends TemplePattern {
   private final BoundedParameter xPos = new BoundedParameter("XPos", 0, model.xMin, model.xMax);
 
@@ -29,7 +9,7 @@ class MoveXPosition extends TemplePattern {
   public void run(double deltaMs) {
     for (LXPoint p : model.points) {
       float brightnessValue = max(0, 100 - abs(p.x - xPos.getValuef()));
-      colors[p.index] = lx.hsb(255, 0, brightnessValue);
+      colors[p.index] = lx.hsb(0, 0, brightnessValue);
     }  
   }
 }
@@ -45,7 +25,7 @@ class MoveYPosition extends TemplePattern {
   public void run(double deltaMs) {
     for (LXPoint p : model.points) {
       float brightnessValue = max(0, 100 - abs(p.y - yPos.getValuef()));
-      colors[p.index] = lx.hsb(255, 0, brightnessValue);
+      colors[p.index] = lx.hsb(0, 0, brightnessValue);
     }  
   }
 }
@@ -56,10 +36,11 @@ class TestYPattern extends TemplePattern {
     super(lx);
     addModulator(yPos).trigger();
   }
+
   public void run(double deltaMs) {
     for (LXPoint p : model.points) {
       float bv = max(0, 100 - abs(p.y - yPos.getValuef()));
-      colors[p.index] = lx.hsb(360, 0, bv);
+      colors[p.index] = lx.hsb(0, 0, bv);
     }
   }
 }
@@ -74,6 +55,7 @@ class Bounce extends LXPattern {
     addModulator(yPos).trigger();
     addParameter(thickness);
   }
+
   public void run(double deltaMs) {
     float hv = palette.getHuef();
     for (LXPoint p : model.points) {
@@ -83,13 +65,3 @@ class Bounce extends LXPattern {
   }
 }
 
-//class Swirling extends TemplePattern {
-//  public Swirling(LX lx){
-//    super(lx);
-//  }
-  
-//  public void run(double deltaMs) {
-//    for (Petal petal: model.petals) {
-      
-//  }
-//}
