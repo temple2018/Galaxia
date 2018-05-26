@@ -15,4 +15,3 @@ abstract class TempleLayer extends LXLayer{
     model = (Temple)lx.model;
   }
 }
-

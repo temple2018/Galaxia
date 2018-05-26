@@ -9,7 +9,10 @@ LXPattern[] patterns(P3LX lx) {
     new TestYPattern(lx),
     new MoveXPosition(lx),
     new MoveYPosition(lx),
+
+    // Gerald's patterns
     new Bounce(lx),
+    new PetalChase(lx),
   };
 }
 
