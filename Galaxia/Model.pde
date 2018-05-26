@@ -18,8 +18,8 @@ class PixelData {
 public static class Temple extends LXModel {
   public final List<Petal> petals;
   
-  public Temple(PixelData config){
-    super(new Fixture(config));
+  public Temple(PixelData pixelLocations){
+    super(new Fixture(pixelLocations));
     Fixture f = (Fixture) this.fixtures.get(0);
     this.petals = Collections.unmodifiableList(f.petals);
   }
@@ -27,13 +27,13 @@ public static class Temple extends LXModel {
   private static class Fixture extends LXAbstractFixture {
     private final List<Petal> petals = new ArrayList<Petal>();
     
-    Fixture(PixelData config){
+    Fixture(PixelData pixelLocations){
       for (int i = 0; i < NUMBER_OF_PETALS; ++i) {
         LXTransform transform = new LXTransform();
         transform.push();
         transform.rotateY(ANGLE_BETWEEN_PETALS * i);
 
-        Petal petal = new Petal(config, transform);
+        Petal petal = new Petal(pixelLocations, transform);
         addPoints(petal);
         this.petals.add(petal);
       }
@@ -43,14 +43,14 @@ public static class Temple extends LXModel {
 
 public static class Petal extends LXModel {
   
-  public Petal(PixelData config, LXTransform transform) {
-    super(new Fixture(config, transform));
+  public Petal(PixelData pixelLocations, LXTransform transform) {
+    super(new Fixture(pixelLocations, transform));
   }
   
   public static class Fixture extends LXAbstractFixture {
     
-    Fixture(PixelData config, LXTransform transform) {
-      for (TableRow row : config.table.rows()) {
+    Fixture(PixelData pixelLocations, LXTransform transform) {
+      for (TableRow row : pixelLocations.table.rows()) {
         float x = row.getFloat("x");
         float y = row.getFloat("y");
         float z = row.getFloat("z");
