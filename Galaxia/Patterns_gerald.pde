@@ -20,7 +20,7 @@ class Bounce extends TemplePattern {
 
 
 class PetalChase extends TemplePattern {
-  private final BoundedParameter speed = new BoundedParameter("Speed", 2000, 2000, -100);
+  private final BoundedParameter speed = new BoundedParameter("Speed", 2000, 4000, 100);
   private final BoundedParameter fadeDistance = new BoundedParameter("Length", 2, 1, 30);
   private final SawLFO petalPos = new SawLFO(0, 60, speed);
 
