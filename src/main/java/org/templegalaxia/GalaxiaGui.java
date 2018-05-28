@@ -1,39 +1,36 @@
 package org.templegalaxia;
 
 import heronarts.lx.model.LXModel;
-import heronarts.lx.model.StripModel;
 import heronarts.lx.studio.LXStudio;
+import org.templegalaxia.model.GridModel3D;
 import processing.core.PApplet;
 
 public class GalaxiaGui extends PApplet {
-    // Configuration flags
+    // System configuration flags
     private static final boolean MULTITHREADED = true;
+    private static final boolean RESIZEABLE = true;
 
-    LXModel model;
-    LXStudio lxStudio;
 
     static public void main(String args[]) {
+
         PApplet.main(new String[]{"--present", GalaxiaGui.class.getName()});
     }
 
     public void settings() {
+
         size(displayWidth, displayHeight, P3D);
     }
 
     public void setup() {
-        GalaxiaGui applet = this; // Reference to PApplet
+        // Load model
+        LXModel model = new GridModel3D();
 
-        model = new StripModel(10);
+        // Initialize LX
+        LXStudio lx = new LXStudio(this, model, MULTITHREADED);
 
-        lxStudio = new LXStudio(this, model, MULTITHREADED) {
-            public void initialize(LXStudio lx, LXStudio.UI ui) {
-
-            }
-
-            public void onUIReady(LXStudio lx, LXStudio.UI ui) {
-
-            }
-        };
+        // Configure UI
+        lx.ui.setResizable(RESIZEABLE);
+        lx.ui.preview.pointCloud.setPointSize(30);
     }
 
     public void draw() {
