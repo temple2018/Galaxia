@@ -16,12 +16,12 @@ public class GalaxiaGui extends PApplet {
     }
 
     public void settings() {
-
-        size(800, 600, P3D);
+        size(displayWidth, displayHeight, P3D);
     }
 
     public void setup() {
-        PApplet.println("Running sketch from ", sketchPath());
+        startupInfo();
+
         // Load model
         LXModel model = new Temple(this, "points.csv");
 
@@ -29,10 +29,15 @@ public class GalaxiaGui extends PApplet {
         LXStudio lx = new LXStudio(this, model, MULTITHREADED);
 
         // Configure UI
+        lx.ui.setResizable(RESIZEABLE);
         lx.ui.preview.pointCloud.setPointSize(2);
     }
 
     public void draw() {
         // Handled by LXStudio
+    }
+
+    private void startupInfo() {
+        PApplet.println("Running sketch from ", sketchPath());
     }
 }
