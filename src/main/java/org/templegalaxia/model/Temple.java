@@ -25,10 +25,10 @@ public class Temple extends LXModel {
         private final List<Petal> petals = new ArrayList<>();
 
         Fixture(PApplet applet, String pixelCsv){
+            LXTransform transform = new LXTransform();
             for (int i = 0; i < NUMBER_OF_PETALS; ++i) {
-                LXTransform transform = new LXTransform();
                 transform.push();
-                transform.rotateY(ANGLE_BETWEEN_PETALS * i);
+                transform.rotateY(ANGLE_BETWEEN_PETALS);
 
                 Petal petal = Petal.loadFromCsv(applet, transform, pixelCsv);
                 addPoints(petal);
