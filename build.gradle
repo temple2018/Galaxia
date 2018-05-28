@@ -1,0 +1,25 @@
+apply plugin: 'application'
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile fileTree(dir: 'lib', include: ['*.jar'])
+    compile group: 'org.processing', name: 'core', version: '3.3.7'
+}
+
+wrapper {
+    gradleVersion = '4.7'
+}
+
+mainClassName = 'org.templegalaxia.GalaxiaGui'
+
+jar {
+    manifest {
+        attributes("Implementation-Title": "galaxia",
+                "Implementation-Version": "0.1",
+                "Main-Class": "org.templegalaxia.GalaxiaGui")
+    }
+}

@@ -18,7 +18,7 @@ LXPattern[] patterns(P3LX lx) {
 
 void setup() {
   // Processing setup, constructs the window and the LX instance
-  size(800, 60, P3D);
+  size(1024, 768, P3D);
   lx = new heronarts.lx.studio.LXStudio(this, buildModel(), MULTITHREADED);
   lx.ui.setResizable(RESIZABLE);
   
@@ -31,7 +31,8 @@ void initialize(final heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStu
 }
 
 void onUIReady(heronarts.lx.studio.LXStudio lx, heronarts.lx.studio.LXStudio.UI ui) {
-  ui.preview.pointCloud.setPointSize(10);
+  ui.setBackgroundColor(100);
+  ui.preview.pointCloud.setPointSize(4);
 }
 
 void draw() {
