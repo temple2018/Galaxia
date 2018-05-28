@@ -30,7 +30,7 @@ public class GalaxiaGui extends PApplet {
 
         // Configure UI
         lx.ui.setResizable(RESIZEABLE);
-        lx.ui.preview.pointCloud.setPointSize(30);
+        lx.ui.preview.pointCloud.setPointSize(2);
     }
 
     public void draw() {
