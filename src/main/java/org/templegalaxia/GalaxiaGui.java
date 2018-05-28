@@ -3,6 +3,8 @@ package org.templegalaxia;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.studio.LXStudio;
 import org.templegalaxia.model.GridModel3D;
+import org.templegalaxia.model.Petal;
+import org.templegalaxia.model.Temple;
 import processing.core.PApplet;
 
 
@@ -12,24 +14,23 @@ public class GalaxiaGui extends PApplet {
     private static final boolean RESIZEABLE = true;
 
     static public void main(String args[]) {
-
         PApplet.main(new String[]{"--present", GalaxiaGui.class.getName()});
-
     }
 
     public void settings() {
-        size(displayWidth, displayHeight, P3D);
+
+        size(800, 600, P3D);
     }
 
     public void setup() {
+        PApplet.println("Running sketch from ", sketchPath());
         // Load model
-        LXModel model = new GridModel3D();
+        LXModel model = new Temple(this, "points.csv");
 
         // Initialize LX
         LXStudio lx = new LXStudio(this, model, MULTITHREADED);
 
         // Configure UI
-        lx.ui.setResizable(RESIZEABLE);
         lx.ui.preview.pointCloud.setPointSize(2);
     }
 

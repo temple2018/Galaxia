@@ -2,17 +2,38 @@ package org.templegalaxia.model;
 
 import heronarts.lx.model.LXAbstractFixture;
 import heronarts.lx.model.LXModel;
+import heronarts.lx.transform.LXTransform;
+import processing.core.PApplet;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Temple extends LXModel {
+    private static final float NUMBER_OF_PETALS = 20;
+    private static final float ANGLE_BETWEEN_PETALS = PApplet.radians(360/NUMBER_OF_PETALS);
 
-    public Temple() {
-        super(new Fixture());
+    public final List<Petal> petals;
+
+    public Temple(PApplet applet, String petalCsv) {
+        super(new Fixture(applet, petalCsv));
+        Fixture f = (Fixture) this.fixtures.get(0);
+        this.petals = Collections.unmodifiableList(f.petals);
     }
 
     private static class Fixture extends LXAbstractFixture {
+        private final List<Petal> petals = new ArrayList<>();
 
-        Fixture() {
+        Fixture(PApplet applet, String pixelCsv){
+            for (int i = 0; i < NUMBER_OF_PETALS; ++i) {
+                LXTransform transform = new LXTransform();
+                transform.push();
+                transform.rotateY(ANGLE_BETWEEN_PETALS * i);
 
+                Petal petal = Petal.loadFromCsv(applet, transform, pixelCsv);
+                addPoints(petal);
+                this.petals.add(petal);
+            }
         }
     }
 }
