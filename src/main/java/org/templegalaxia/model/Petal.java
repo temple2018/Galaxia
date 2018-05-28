@@ -25,7 +25,7 @@ public class Petal extends LXModel {
 
         Fixture(Table pixelLocations, LXTransform transform) {
             for (TableRow row : pixelLocations.rows()) {
-                // NOTE(G3): There is a coordinate systems are mismatched between rhino & Processing
+                // NOTE(G3): There is a coordinate systems mismatched between rhino & Processing
                 // and this foolery ensures that the temple is upright in processing.
                 float x = row.getFloat("y");
                 float y = row.getFloat("z");
