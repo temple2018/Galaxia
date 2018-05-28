@@ -23,5 +23,5 @@ Note: tested with intellij 2018.1.2
   - P3LX window should appear
   - You can now hit the run to start the project up
 
-### Special thanks
-Mark Slee (@mcslee) the creator of https://github.com/heronarts/LXStudio
+### Special thanks to:
+- [Mark Slee](https://github.com/mcslee) the creator of https://github.com/heronarts/LXStudio
