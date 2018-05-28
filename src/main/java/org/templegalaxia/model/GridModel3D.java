@@ -6,7 +6,7 @@ import heronarts.lx.model.LXPoint;
 
 public class GridModel3D extends LXModel {
 
-    private final static int SIZE = 5;
+    private final static int SIZE = 30;
 
     public GridModel3D() {
         super(new Fixture());
