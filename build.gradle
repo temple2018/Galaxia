@@ -7,7 +7,6 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'lib', include: ['*.jar'])
-    compile group: 'org.processing', name: 'core', version: '3.3.7'
 }
 
 wrapper {
