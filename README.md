@@ -1,5 +1,7 @@
 # Temple Galaxia
 
+![Screenshot](/assets/GalaxiaScreenshot.png "Example of Galaxia in LX.")
+
 ## To Run
 `./gradlew run`
 
