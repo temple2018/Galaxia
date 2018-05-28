@@ -1,30 +1,42 @@
 package org.templegalaxia;
 
+import heronarts.lx.model.LXModel;
+import heronarts.lx.model.StripModel;
+import heronarts.lx.studio.LXStudio;
 import processing.core.PApplet;
 
 public class GalaxiaGui extends PApplet {
+    // Configuration flags
+    private static final boolean MULTITHREADED = true;
+
+    LXModel model;
+    LXStudio lxStudio;
+
     static public void main(String args[]) {
         PApplet.main(new String[]{"--present", GalaxiaGui.class.getName()});
     }
 
-
-    @Override
     public void settings() {
-        // TODO: Customize screen size and so on here
-        size(200, 200);
+        size(displayWidth, displayHeight, P3D);
     }
 
-    @Override
     public void setup() {
-        // TODO: Your custom drawing and setup on applet start belongs here
-        clear();
+        GalaxiaGui applet = this; // Reference to PApplet
+
+        model = new StripModel(10);
+
+        lxStudio = new LXStudio(this, model, MULTITHREADED) {
+            public void initialize(LXStudio lx, LXStudio.UI ui) {
+
+            }
+
+            public void onUIReady(LXStudio lx, LXStudio.UI ui) {
+
+            }
+        };
     }
 
-    @Override
     public void draw() {
-        // TODO: Do your drawing for each frame here
-        clear();
-        fill(255);
-        rect(50, 50, 100, 100);
+        // Handled by LXStudio
     }
 }
