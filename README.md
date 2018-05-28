@@ -22,3 +22,6 @@ Note: tested with intellij 2018.1.2
   - Double click on "run"
   - P3LX window should appear
   - You can now hit the run to start the project up
+
+### Special thanks
+Mark Slee (@mcslee) the creator of https://github.com/heronarts/LXStudio
