@@ -2,8 +2,6 @@ package org.templegalaxia;
 
 import heronarts.lx.model.LXModel;
 import heronarts.lx.studio.LXStudio;
-import org.templegalaxia.model.GridModel3D;
-import org.templegalaxia.model.Petal;
 import org.templegalaxia.model.Temple;
 import processing.core.PApplet;
 
