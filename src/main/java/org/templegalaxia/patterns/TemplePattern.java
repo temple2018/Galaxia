@@ -5,10 +5,10 @@ import heronarts.lx.LXPattern;
 import org.templegalaxia.model.Temple;
 
 
-abstract class TemplePattern extends LXPattern {
+public abstract class TemplePattern extends LXPattern {
     protected final Temple model;
 
-    TemplePattern(LX lx) {
+    public TemplePattern(LX lx) {
         super(lx);
         model = (Temple)lx.model;
     }
