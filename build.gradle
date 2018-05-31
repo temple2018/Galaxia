@@ -6,9 +6,6 @@ repositories {
 }
 
 dependencies {
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-csv
-    compile group: 'org.apache.commons', name: 'commons-csv', version: '1.5'
-
     compile fileTree(dir: 'lib', include: ['*.jar'])
 
 }
