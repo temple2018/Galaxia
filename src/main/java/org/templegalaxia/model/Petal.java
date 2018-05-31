@@ -22,38 +22,32 @@ public class Petal extends LXModel {
 
     private static List<float[]> xyzs = new ArrayList<>();
 
-    private static void encacheCSV() {
-        // Already cached/parsed
-        if(xyzs.size() != 0){
-            return;
+    // Statically initialize the CSV load on the first init
+    {
+        if (xyzs.size() == 0) {
+            CSVParser parser;
+            try {
+                parser = new CSVParser(
+                        new BufferedReader(new InputStreamReader(Petal.class.getResourceAsStream("points.csv"))),
+                        CSVFormat.EXCEL.withHeader());
+            } catch (Exception e) {
+                // Coherce to non checked exceptions.
+                throw new RuntimeException(e);
+            }
+
+            // Read in all the xyzs
+            // NOTE(G3): There is a coordinate systems mismatched between rhino & Processing
+            // and this foolery ensures that the temple is upright in processing.
+            for (CSVRecord csvRecord : parser) {
+                xyzs.add(new float[]{
+                        Float.parseFloat(csvRecord.get("y")),
+                        Float.parseFloat(csvRecord.get("z")),
+                        Float.parseFloat(csvRecord.get("x"))
+                });
+            }
+
+            System.out.println(String.format("Loaded %d points.", xyzs.size()));
         }
-
-        CSVParser parser;
-        try {
-            parser = new CSVParser(
-                new BufferedReader(new InputStreamReader(Petal.class.getResourceAsStream("points.csv"))),
-                CSVFormat.EXCEL.withHeader());
-        } catch (Exception e){
-            throw new RuntimeException(e);
-        }
-
-        // Read in all the xyzs
-        // NOTE(G3): There is a coordinate systems mismatched between rhino & Processing
-        // and this foolery ensures that the temple is upright in processing.
-        for (CSVRecord csvRecord : parser) {
-            xyzs.add(new float[]{
-                Float.parseFloat(csvRecord.get("y")),
-                Float.parseFloat(csvRecord.get("z")),
-                Float.parseFloat(csvRecord.get("x"))
-            });
-        }
-
-        System.out.println(String.format("Loaded %d points.", xyzs.size()));
-    }
-
-    public static Petal loadFromCsv(PApplet applet, LXTransform transform) {
-        encacheCSV();
-        return new Petal(transform);
     }
 
     private static class Fixture extends LXAbstractFixture {

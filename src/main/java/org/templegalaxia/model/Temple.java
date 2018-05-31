@@ -30,7 +30,7 @@ public class Temple extends LXModel {
                 transform.push();
                 transform.rotateY(ANGLE_BETWEEN_PETALS);
 
-                Petal petal = Petal.loadFromCsv(applet, transform);
+                Petal petal = new Petal(transform);
                 addPoints(petal);
                 this.petals.add(petal);
             }
