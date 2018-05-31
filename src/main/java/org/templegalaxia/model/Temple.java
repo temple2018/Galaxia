@@ -15,8 +15,8 @@ public class Temple extends LXModel {
 
     public final List<Petal> petals;
 
-    public Temple(PApplet applet, String petalCsv) {
-        super(new Fixture(applet, petalCsv));
+    public Temple(PApplet applet) {
+        super(new Fixture(applet));
         Fixture f = (Fixture) this.fixtures.get(0);
         this.petals = Collections.unmodifiableList(f.petals);
     }
@@ -24,13 +24,13 @@ public class Temple extends LXModel {
     private static class Fixture extends LXAbstractFixture {
         private final List<Petal> petals = new ArrayList<>();
 
-        Fixture(PApplet applet, String pixelCsv){
+        Fixture(PApplet applet){
             LXTransform transform = new LXTransform();
             for (int i = 0; i < NUMBER_OF_PETALS; ++i) {
                 transform.push();
                 transform.rotateY(ANGLE_BETWEEN_PETALS);
 
-                Petal petal = Petal.loadFromCsv(applet, transform, pixelCsv);
+                Petal petal = new Petal(transform);
                 addPoints(petal);
                 this.petals.add(petal);
             }

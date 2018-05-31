@@ -24,7 +24,7 @@ public class GalaxiaGui extends PApplet {
         startupInfo();
 
         // Load model
-        LXModel model = new Temple(this, "points.csv");
+        LXModel model = new Temple(this);
 
         // Initialize LX
         LXStudio lx = new LXStudio(this, model, MULTITHREADED);
