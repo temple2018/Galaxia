@@ -23,7 +23,7 @@ public class Petal extends LXModel {
     private static List<float[]> xyzs = new ArrayList<>();
 
     // Statically initialize the CSV load on the first init
-    {
+    static {
         if (xyzs.size() == 0) {
             CSVParser parser;
             try {
