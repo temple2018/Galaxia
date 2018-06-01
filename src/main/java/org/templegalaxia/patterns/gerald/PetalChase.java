@@ -14,31 +14,39 @@ import java.util.stream.IntStream;
 
 @LXCategory("Gerald")
 public class PetalChase extends TemplePattern {
-    private BoundedParameter blur = new BoundedParameter(
-            "blur",
+    private BoundedParameter blurParam = new BoundedParameter(
+            "blurParam",
             Petal.NUM_PIXELS/6,
             1,
             Petal.NUM_PIXELS/2
     ).setDescription("Distance of trailing lights");
 
-    private BoundedParameter speed = new BoundedParameter(
+    private BoundedParameter speedParam = new BoundedParameter(
             "Speed",
             2000,
             5000,
             1000
     ).setDescription("Speed of light wave");
 
-    private SinLFO pixelLFO = new SinLFO(0,Petal.NUM_PIXELS, speed);
+    private BoundedParameter jitterParam = new BoundedParameter(
+            "Jitter",
+            1,
+            1,
+            3
+    ).setDescription("Jitter the lights on each petal");
+
+    private SinLFO pixelLFO = new SinLFO(0,Petal.NUM_PIXELS, speedParam);
 
     public PetalChase(LX lx) {
         super(lx);
         addModulator(pixelLFO).trigger();
-        addParameter(blur);
-        addParameter(speed);
+        addParameter(blurParam);
+        addParameter(jitterParam);
+        addParameter(speedParam);
     }
 
     public void run(double deltaMs) {
-        float blurVal = blur.getValuef();
+        float blurVal = blurParam.getValuef();
         float currentPixel = pixelLFO.getValuef();
 
         // Remap the currentPixel into a petal pixel space that is extended on both ends by the blurVal
@@ -59,16 +67,18 @@ public class PetalChase extends TemplePattern {
         // Treat every petal's pixels the same
         IntStream.range(0, model.petals.size()).forEach(
             petalNum -> {
+                // Add some random jitter to make things interesting
+                int jitter = (int)jitterParam.getValuef();
 
-                // Modify the length of the blur trail
-                for(int blurSteps = 1; blurSteps <= blurVal; ++blurSteps) {
+                // Modify the length of the blurParam trail
+                for(int blurStep = 1; blurStep <= blurVal; ++blurStep) {
 
                     // Determine if the pixelLFO's value is increasing or decreasing
                     int blurPixel;
                     if(pixelLFO.getValuef() > currentPixel) {
-                        blurPixel = remapPixel - blurSteps;
+                        blurPixel = remapPixel - blurStep - jitter;
                     } else {
-                        blurPixel = remapPixel + blurSteps;
+                        blurPixel = remapPixel + blurStep + jitter;
                     }
 
                     // Ensure that the blurPixel is a pixel in reality
@@ -76,7 +86,7 @@ public class PetalChase extends TemplePattern {
                         int pointIndex = petalIndexToPointIndex(blurPixel, petalNum);
 
                         // Modify brightness based on the distance form the zeroth point
-                        float bv = 100/((float)blurSteps/3);
+                        float bv = 100/((float)blurStep/3);
                         colors[pointIndex] = LXColor.hsb(0, 0, bv);
                     }
                 }
