@@ -41,6 +41,8 @@ public class PetalChase extends TemplePattern {
         float blurVal = blur.getValuef();
         float currentPixel = pixelLFO.getValuef();
 
+        // Remap the currentPixel into a petal pixel space that is extended on both ends by the blurVal
+        // this gives the illusion of the light chase falling off the edge of the petals.
         int remapPixel = (int)PApplet.map(
                 currentPixel,
                 0,
@@ -49,13 +51,19 @@ public class PetalChase extends TemplePattern {
                 Petal.NUM_PIXELS + blurVal
         );
 
+        // Turn everything off
         for(LXPoint p : model.points) {
             colors[p.index] = LXColor.BLACK;
         }
 
+        // Treat every petal's pixels the same
         IntStream.range(0, model.petals.size()).forEach(
             petalNum -> {
+
+                // Modify the length of the blur trail
                 for(int blurSteps = 1; blurSteps <= blurVal; ++blurSteps) {
+
+                    // Determine if the pixelLFO's value is increasing or decreasing
                     int blurPixel;
                     if(pixelLFO.getValuef() > currentPixel) {
                         blurPixel = remapPixel - blurSteps;
@@ -63,8 +71,11 @@ public class PetalChase extends TemplePattern {
                         blurPixel = remapPixel + blurSteps;
                     }
 
+                    // Ensure that the blurPixel is a pixel in reality
                     if(0<= blurPixel && blurPixel < Petal.NUM_PIXELS) {
                         int pointIndex = petalIndexToPointIndex(blurPixel, petalNum);
+
+                        // Modify brightness based on the distance form the zeroth point
                         float bv = 100/((float)blurSteps/3);
                         colors[pointIndex] = LXColor.hsb(0, 0, bv);
                     }
