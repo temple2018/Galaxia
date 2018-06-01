@@ -3,6 +3,7 @@ package org.templegalaxia;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.studio.LXStudio;
 import org.templegalaxia.model.Temple;
+import org.templegalaxia.patterns.gerald.*;
 import org.templegalaxia.patterns.matty.*;
 import org.templegalaxia.patterns.testing.*;
 import processing.core.PApplet;
@@ -41,6 +42,7 @@ public class GalaxiaGui extends PApplet {
         lx.registerPattern(MoveZPosition.class);
         lx.registerPattern(PetalIterator.class);
         lx.registerPattern(Teleport.class);
+        lx.registerPattern(PetalChase.class);
     }
 
     public void draw() {
