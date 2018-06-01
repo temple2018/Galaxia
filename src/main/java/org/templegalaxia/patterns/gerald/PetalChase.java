@@ -14,6 +14,8 @@ import java.util.stream.IntStream;
 
 @LXCategory("Gerald")
 public class PetalChase extends TemplePattern {
+    private double lfoPosition = 0;
+
     private BoundedParameter blurParam = new BoundedParameter(
             "blurParam",
             Petal.NUM_PIXELS/6,
@@ -47,17 +49,22 @@ public class PetalChase extends TemplePattern {
 
     public void run(double deltaMs) {
         float blurVal = blurParam.getValuef();
-        float currentPixel = pixelLFO.getValuef();
+        double currentPixel = pixelLFO.getValuef();
+
 
         // Remap the currentPixel into a petal pixel space that is extended on both ends by the blurVal
         // this gives the illusion of the light chase falling off the edge of the petals.
         int remapPixel = (int)PApplet.map(
-                currentPixel,
+                (float)currentPixel,
                 0,
                 Petal.NUM_PIXELS,
                 -blurVal,
                 Petal.NUM_PIXELS + blurVal
         );
+
+        // Determine the oscilators direction, store currentPixel for the next run
+        double lfoDirection = Math.signum(currentPixel - lfoPosition);
+        lfoPosition = currentPixel;
 
         // Turn everything off
         for(LXPoint p : model.points) {
@@ -67,15 +74,15 @@ public class PetalChase extends TemplePattern {
         // Treat every petal's pixels the same
         IntStream.range(0, model.petals.size()).forEach(
             petalNum -> {
+
                 // Add some random jitter to make things interesting
                 int jitter = (int)jitterParam.getValuef();
 
                 // Modify the length of the blurParam trail
                 for(int blurStep = 1; blurStep <= blurVal; ++blurStep) {
 
-                    // Determine if the pixelLFO's value is increasing or decreasing
                     int blurPixel;
-                    if(pixelLFO.getValuef() > currentPixel) {
+                    if(lfoDirection >= 0) {
                         blurPixel = remapPixel - blurStep - jitter;
                     } else {
                         blurPixel = remapPixel + blurStep + jitter;
