@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Petal extends LXModel {
+    public final static int NUM_PIXELS;
 
     public Petal(LXTransform transform) {
         super(new Fixture(transform));
@@ -48,6 +49,7 @@ public class Petal extends LXModel {
 
             System.out.println(String.format("Loaded %d points.", xyzs.size()));
         }
+        NUM_PIXELS = xyzs.size();
     }
 
     private static class Fixture extends LXAbstractFixture {
