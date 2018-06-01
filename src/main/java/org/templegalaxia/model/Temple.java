@@ -26,13 +26,13 @@ public class Temple extends LXModel {
 
         Fixture(PApplet applet){
             LXTransform transform = new LXTransform();
-            for (int i = 0; i < NUMBER_OF_PETALS; ++i) {
-                transform.push();
-                transform.rotateY(ANGLE_BETWEEN_PETALS);
 
+            for (int i = 0; i < NUMBER_OF_PETALS; ++i) {
                 Petal petal = new Petal(transform);
                 addPoints(petal);
                 this.petals.add(petal);
+
+                transform.rotateY(ANGLE_BETWEEN_PETALS);
             }
         }
     }
