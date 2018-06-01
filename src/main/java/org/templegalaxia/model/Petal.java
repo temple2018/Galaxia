@@ -7,7 +7,6 @@ import heronarts.lx.transform.LXTransform;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import processing.core.PApplet;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
