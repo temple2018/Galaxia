@@ -43,6 +43,7 @@ public class GalaxiaGui extends PApplet {
         lx.registerPattern(PetalIterator.class);
         lx.registerPattern(Teleport.class);
         lx.registerPattern(PetalChase.class);
+        lx.registerPattern(Sparkle.class);
     }
 
     public void draw() {
