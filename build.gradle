@@ -1,19 +1,24 @@
+plugins {
+    id "com.diffplug.gradle.spotless" version "3.13.0"
+}
+
 apply plugin: 'application'
 apply plugin: 'java'
 
 
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "com.diffplug.spotless:spotless-plugin-gradle:3.13.0"
+spotless {
+    // Code formatter and repair tool.
+    // https://github.com/diffplug/spotless/tree/master/plugin-gradle#java
+    java {
+        target 'src/**/*.java'
+        googleJavaFormat('1.6')
+        removeUnusedImports()
+        replaceRegex 'Bug in google format javadoc: https://github.com/google/google-java-format/issues/254', '  \\* (<p>)+', '  * <p>'
     }
 }
 
 apply plugin: "com.diffplug.gradle.spotless"
+
 dependencies {
     compile fileTree(dir: 'lib', include: ['*.jar'])
 
