@@ -5,6 +5,24 @@
 ## To Run
 `./gradlew run`
 
+### Requirements
+Java 8, if you don't already have it on your system:
+
+- Debian/Ubuntu
+  ```
+  sudo apt-get install openjdk-8-jre
+  ```
+- Fedora/RHEL/Oracle
+  ```
+  su -c "yum install java-1.8.0-openjdk"
+  ```
+- OSX
+  ```
+  brew cash install caskroom/versions/java8
+  ```
+- Windows
+  - Let us know!
+
 ## IntelliJ Setup
 This is a gradle project so intellij should automagically just Work with a few clicks.
 
