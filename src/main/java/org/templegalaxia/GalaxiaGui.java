@@ -51,7 +51,7 @@ public class GalaxiaGui extends PApplet {
       throw new RuntimeException(e);
     }
   }
-
+  
   // NOTE(meawoppl) this wants to be a classpath scan for annotations.
   public void initialize(LXStudio lx, LXStudio.UI ui) {
     lx.registerPattern(MoveXPosition.class);
