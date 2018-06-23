@@ -2,28 +2,19 @@ package org.templegalaxia;
 
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXFixture;
-import heronarts.lx.model.LXPoint;
 import heronarts.lx.output.ArtNetDatagram;
-import java.util.List;
 
 public class DemuxArtNetDatagram extends ArtNetDatagram {
   private static final int ARTNET_HEADER_LENGTH = 18;
   private final int[] pointIndices;
 
-  public DemuxArtNetDatagram(LXFixture fixture, int universe) {
-    super(getIndices(fixture), getIndices(fixture).length, universe);
-    pointIndices = getIndices(fixture);
+  public static DemuxArtNetDatagram fromFixture(LXFixture fixture, int universe) {
+    return new DemuxArtNetDatagram(LXFixture.Utils.getIndices(fixture), universe);
   }
 
-  // Stolen from LXOutput, ty @mcslee
-  static int[] getIndices(LXFixture fixture) {
-    List<LXPoint> points = fixture.getPoints();
-    int[] indices = new int[points.size()];
-    int i = 0;
-    for (LXPoint p : points) {
-      indices[i++] = p.index;
-    }
-    return indices;
+  private DemuxArtNetDatagram(int[] pointIndices, int universe) {
+    super(pointIndices, pointIndices.length, universe);
+    this.pointIndices = pointIndices;
   }
 
   public byte luminance(int rgb) {

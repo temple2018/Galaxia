@@ -43,7 +43,7 @@ public class GalaxiaGui extends PApplet {
 
     try {
       output = new LXDatagramOutput(lx);
-      datagram = new DemuxArtNetDatagram(model, 0);
+      datagram = DemuxArtNetDatagram.fromFixture(model, 0);
       datagram.setAddress("192.168.0.50");
       output.addDatagram(datagram);
       lx.addOutput(output);
