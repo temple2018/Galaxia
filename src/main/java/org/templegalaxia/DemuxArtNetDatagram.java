@@ -87,7 +87,17 @@ public class DemuxArtNetDatagram extends LXDatagram {
     int g = LXColor.green(rgb);
     int b = LXColor.blue(rgb);
 
-    return (byte) Math.round((r + g + b) / 3.0);
+    float lum = Math.round((r+g+b)/3);
+
+    if (lum < 0)
+      lum = 0;
+
+    if(lum > 255)
+      lum = 255;
+
+
+    System.out.println(String.format("R %d G %d B%d -> (%d)", r, g, b, (byte) lum));
+    return (byte) lum;
   }
 
   public void onSend(int[] colors) {
@@ -96,7 +106,7 @@ public class DemuxArtNetDatagram extends LXDatagram {
 
     int offset = 0;
     for (int ptIndex : this.pointIndices) {
-      this.buffer[ARTNET_HEADER_LENGTH + offset] = luminance(colors[ptIndex]);
+      this.buffer[ARTNET_HEADER_LENGTH + offset] = (byte) (255 - luminance(colors[ptIndex]));
       ++offset;
     }
   }
