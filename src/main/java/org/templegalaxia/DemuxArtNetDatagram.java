@@ -4,7 +4,6 @@ import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXFixture;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.output.ArtNetDatagram;
-
 import java.util.List;
 
 public class DemuxArtNetDatagram extends ArtNetDatagram {
@@ -18,14 +17,13 @@ public class DemuxArtNetDatagram extends ArtNetDatagram {
 
   // Stolen from LXOutput, ty @mcslee
   static int[] getIndices(LXFixture fixture) {
-      return LXFixture.Utils.getIndices(fixture);
-//      List<LXPoint> points = fixture.getPoints();
-//      int[] indices = new int[points.size()];
-//      int i = 0;
-//      for (LXPoint p : points) {
-//        indices[i++] = p.index;
-//      }
-//      return indices;
+    List<LXPoint> points = fixture.getPoints();
+    int[] indices = new int[points.size()];
+    int i = 0;
+    for (LXPoint p : points) {
+      indices[i++] = p.index;
+    }
+    return indices;
   }
 
   public byte luminance(int rgb) {
@@ -33,13 +31,11 @@ public class DemuxArtNetDatagram extends ArtNetDatagram {
     int g = LXColor.green(rgb);
     int b = LXColor.blue(rgb);
 
-    float lum = Math.round((r+g+b)/3);
+    float lum = Math.round((r + g + b) / 3);
 
-    if (lum < 0)
-      lum = 0;
+    if (lum < 0) lum = 0;
 
-    if(lum > 255)
-      lum = 255;
+    if (lum > 255) lum = 255;
 
     System.out.println(String.format("R %d G %d B%d -> (%d)", r, g, b, (byte) lum));
     return (byte) lum;
