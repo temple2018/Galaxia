@@ -13,11 +13,11 @@ public class DemuxArtNetDatagram extends ArtNetDatagram {
 
   public DemuxArtNetDatagram(LXFixture fixture, int universe) {
     super(getIndices(fixture), getIndices(fixture).length, universe);
-    pointIndices = getIndices(fixture)
+    pointIndices = getIndices(fixture);
   }
 
   // Stolen from LXOutput, ty @mcslee
-  static static int[] getIndices(LXFixture fixture) {
+  static int[] getIndices(LXFixture fixture) {
       List<LXPoint> points = fixture.getPoints();
       int[] indices = new int[points.size()];
       int i = 0;
