@@ -18,13 +18,14 @@ public class DemuxArtNetDatagram extends ArtNetDatagram {
 
   // Stolen from LXOutput, ty @mcslee
   static int[] getIndices(LXFixture fixture) {
-      List<LXPoint> points = fixture.getPoints();
-      int[] indices = new int[points.size()];
-      int i = 0;
-      for (LXPoint p : points) {
-        indices[i++] = p.index;
-      }
-      return indices;
+      return LXFixture.Utils.getIndices(fixture);
+//      List<LXPoint> points = fixture.getPoints();
+//      int[] indices = new int[points.size()];
+//      int i = 0;
+//      for (LXPoint p : points) {
+//        indices[i++] = p.index;
+//      }
+//      return indices;
   }
 
   public byte luminance(int rgb) {
