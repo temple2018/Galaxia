@@ -42,7 +42,7 @@ Note: tested with intellij 2018.1.2
   - You can now hit the run to start the project up
 
 ### Special thanks to
-- [Mark Slee](https://github.com/mcslee): The creator of https://github.com/heronarts/LXStudio
+- [Mark Slee](https://github.com/mcslee): The creator of [LX Suite of tools](https://github.com/heronarts/LXStudio)
 - [Matty Goodman](https://github.com/meawoppl): For all the software
 - [Bash Zaidy](https://github.com/bash102): Circuit designs that make this all possible
 - Robb Walters: PCBa layouts while we sleep!
