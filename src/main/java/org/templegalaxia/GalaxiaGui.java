@@ -1,7 +1,10 @@
 package org.templegalaxia;
 
 import heronarts.lx.model.LXModel;
+import heronarts.lx.output.LXDatagramOutput;
 import heronarts.lx.studio.LXStudio;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import org.templegalaxia.model.Temple;
 import org.templegalaxia.patterns.gerald.*;
 import org.templegalaxia.patterns.matty.*;
@@ -33,8 +36,23 @@ public class GalaxiaGui extends PApplet {
     // Configure UI
     lx.ui.setResizable(RESIZEABLE);
     lx.ui.preview.pointCloud.setPointSize(20);
+
+    // Setup the output
+    LXDatagramOutput output;
+    DemuxArtNetDatagram datagram;
+
+    try {
+      output = new LXDatagramOutput(lx);
+      datagram = DemuxArtNetDatagram.fromFixture(model, 0);
+      datagram.setAddress("192.168.0.50");
+      output.addDatagram(datagram);
+      lx.addOutput(output);
+    } catch (UnknownHostException | SocketException e) {
+      throw new RuntimeException(e);
+    }
   }
 
+  // NOTE(meawoppl) this wants to be a classpath scan for annotations.
   public void initialize(LXStudio lx, LXStudio.UI ui) {
     lx.registerPattern(MoveXPosition.class);
     lx.registerPattern(MoveYPosition.class);
@@ -43,6 +61,7 @@ public class GalaxiaGui extends PApplet {
     lx.registerPattern(Teleport.class);
     lx.registerPattern(PetalChase.class);
     lx.registerPattern(Sparkle.class);
+    lx.registerPattern(DebugOrder.class);
   }
 
   public void draw() {
