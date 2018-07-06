@@ -18,17 +18,15 @@ public class DemuxArtNetDatagram extends ArtNetDatagram {
   }
 
   public byte luminance(int rgb) {
-    int r = LXColor.red(rgb);
-    int g = LXColor.green(rgb);
-    int b = LXColor.blue(rgb);
+    float r = LXColor.red(rgb);
+    float g = LXColor.green(rgb);
+    float b = LXColor.blue(rgb);
 
-    float lum = Math.round((r + g + b) / 3);
+    int lum = Math.round(((r + g + b) / 3) * 255 / 100);
 
     if (lum < 0) lum = 0;
-
     if (lum > 255) lum = 255;
 
-    System.out.println(String.format("R %d G %d B%d -> (%d)", r, g, b, (byte) lum));
     return (byte) lum;
   }
 
