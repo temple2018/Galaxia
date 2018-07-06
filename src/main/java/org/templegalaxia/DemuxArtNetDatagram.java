@@ -26,7 +26,7 @@ public class DemuxArtNetDatagram extends ArtNetDatagram {
 
     System.out.println(String.format("R:%d G:%d B:%d", r, g, b));
 
-    return (byte) ((byte) ((r + g + b) / 3) - 128);
+    return (byte) ((r + g + b) / 3);
   }
 
   @Override
