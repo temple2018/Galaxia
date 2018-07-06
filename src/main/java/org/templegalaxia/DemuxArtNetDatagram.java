@@ -1,10 +1,8 @@
 package org.templegalaxia;
 
-import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXFixture;
 import heronarts.lx.output.ArtNetDatagram;
-import sun.awt.SunHints;
 
 public class DemuxArtNetDatagram extends ArtNetDatagram {
   private static final int ARTNET_HEADER_LENGTH = 18;
