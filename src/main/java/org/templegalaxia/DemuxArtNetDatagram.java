@@ -18,18 +18,13 @@ public class DemuxArtNetDatagram extends ArtNetDatagram {
   }
 
   public byte luminance(int rgb) {
-    int r = LXColor.red(rgb);
-    int g = LXColor.green(rgb);
-    int b = LXColor.blue(rgb);
+    int r = (rgb >> LXColor.R_SHIFT) & 0xFF;
+    int g = (rgb >> LXColor.G_SHIFT) & 0xFF;
+    int b = (rgb) & LXColor.B_MASK;
 
-    float lum = Math.round((r + g + b) / 3);
+    System.out.println(String.format("R:%d G:%d B:%d", r, g, b));
 
-    if (lum < 0) lum = 0;
-
-    if (lum > 255) lum = 255;
-
-    System.out.println(String.format("R %d G %d B%d -> (%d)", r, g, b, (byte) lum));
-    return (byte) lum;
+    return (byte) ((r + g + b) / 3);
   }
 
   @Override
@@ -39,7 +34,7 @@ public class DemuxArtNetDatagram extends ArtNetDatagram {
 
     int offset = 0;
     for (int ptIndex : this.pointIndices) {
-      this.buffer[ARTNET_HEADER_LENGTH + offset] = (byte) (255 - luminance(colors[ptIndex]));
+      this.buffer[ARTNET_HEADER_LENGTH + offset] = luminance(colors[ptIndex]);
       ++offset;
     }
   }
