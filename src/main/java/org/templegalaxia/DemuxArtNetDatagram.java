@@ -22,8 +22,6 @@ public class DemuxArtNetDatagram extends ArtNetDatagram {
     int g = (rgb >> LXColor.G_SHIFT) & 0xFF;
     int b = (rgb) & LXColor.B_MASK;
 
-    System.out.println(String.format("R:%d G:%d B:%d", r, g, b));
-
     return (byte) ((r + g + b) / 3);
   }
 
