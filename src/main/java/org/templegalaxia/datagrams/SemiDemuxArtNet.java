@@ -1,16 +1,16 @@
-package org.templegalaxia;
+package org.templegalaxia.datagrams;
 
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXFixture;
 import heronarts.lx.output.ArtNetDatagram;
 
-public class SemiDemusAtNetDatagram extends ArtNetDatagram {
+public class SemiDemuxArtNet extends ArtNetDatagram {
     private static final int ARTNET_HEADER_LENGTH = 18;
     private final int[] demuxed;
     private final int[] muxed;
 
-    public static SemiDemusAtNetDatagram fromFixture(LXFixture demuxed, LXFixture muxed, int universe) {
-        return new SemiDemusAtNetDatagram(
+    public static SemiDemuxArtNet fromFixture(LXFixture demuxed, LXFixture muxed, int universe) {
+        return new SemiDemuxArtNet(
                 LXFixture.Utils.getIndices(demuxed),
                 LXFixture.Utils.getIndices(muxed),
                 universe);
@@ -23,7 +23,7 @@ public class SemiDemusAtNetDatagram extends ArtNetDatagram {
         return r;
     }
 
-    private DemuxArtNetDatagram(int[] demuxed, int[] muxed, int universe) {
+    private SemiDemuxArtNet(int[] demuxed, int[] muxed, int universe) {
         super(
             this.nastyArrayAdd(demuxed, muxed),
             demuxed.length + muxed.length,

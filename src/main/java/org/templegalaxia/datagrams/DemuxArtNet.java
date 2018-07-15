@@ -1,18 +1,18 @@
-package org.templegalaxia;
+package org.templegalaxia.datagrams;
 
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXFixture;
 import heronarts.lx.output.ArtNetDatagram;
 
-public class DemuxArtNetDatagram extends ArtNetDatagram {
+public class DemuxArtNet extends ArtNetDatagram {
   private static final int ARTNET_HEADER_LENGTH = 18;
   private final int[] pointIndices;
 
-  public static DemuxArtNetDatagram fromFixture(LXFixture fixture, int universe) {
-    return new DemuxArtNetDatagram(LXFixture.Utils.getIndices(fixture), universe);
+  public static DemuxArtNet fromFixture(LXFixture fixture, int universe) {
+    return new DemuxArtNet(LXFixture.Utils.getIndices(fixture), universe);
   }
 
-  private DemuxArtNetDatagram(int[] pointIndices, int universe) {
+  private DemuxArtNet(int[] pointIndices, int universe) {
     super(pointIndices, pointIndices.length, universe);
     this.pointIndices = pointIndices;
   }

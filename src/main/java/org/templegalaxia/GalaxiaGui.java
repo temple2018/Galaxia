@@ -5,6 +5,8 @@ import heronarts.lx.output.LXDatagramOutput;
 import heronarts.lx.studio.LXStudio;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+
+import org.templegalaxia.datagrams.DemuxArtNet;
 import org.templegalaxia.model.Temple;
 import org.templegalaxia.patterns.gerald.*;
 import org.templegalaxia.patterns.matty.*;
@@ -39,11 +41,11 @@ public class GalaxiaGui extends PApplet {
 
     // Setup the output
     LXDatagramOutput output;
-    DemuxArtNetDatagram datagram;
+    DemuxArtNet datagram;
 
     try {
       output = new LXDatagramOutput(lx);
-      datagram = DemuxArtNetDatagram.fromFixture(model, 0);
+      datagram = DemuxArtNet.fromFixture(model, 0);
       datagram.setAddress("192.168.0.50");
       output.addDatagram(datagram);
       lx.addOutput(output);
