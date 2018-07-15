@@ -5,7 +5,6 @@ import heronarts.lx.output.LXDatagramOutput;
 import heronarts.lx.studio.LXStudio;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-
 import org.templegalaxia.datagrams.MultiplexedArtNet;
 import org.templegalaxia.model.Temple;
 import org.templegalaxia.patterns.gerald.*;

@@ -12,7 +12,7 @@ public class MultiplexedArtNet extends ArtNetDatagram {
     return new MultiplexedArtNet(LXFixture.Utils.getIndices(fixture), universe);
   }
 
-  public MultiplexedArtNet(int[] pointIndices, int bufferSize, int universe){
+  public MultiplexedArtNet(int[] pointIndices, int bufferSize, int universe) {
     super(pointIndices, bufferSize, universe);
     this.pointIndices = pointIndices;
   }
