@@ -4,15 +4,20 @@ import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXFixture;
 import heronarts.lx.output.ArtNetDatagram;
 
-public class DemuxArtNet extends ArtNetDatagram {
+public class MultiplexedArtNet extends ArtNetDatagram {
   private static final int ARTNET_HEADER_LENGTH = 18;
   private final int[] pointIndices;
 
-  public static DemuxArtNet fromFixture(LXFixture fixture, int universe) {
-    return new DemuxArtNet(LXFixture.Utils.getIndices(fixture), universe);
+  public static MultiplexedArtNet fromFixture(LXFixture fixture, int universe) {
+    return new MultiplexedArtNet(LXFixture.Utils.getIndices(fixture), universe);
   }
 
-  private DemuxArtNet(int[] pointIndices, int universe) {
+  public MultiplexedArtNet(int[] pointIndices, int bufferSize, int universe){
+    super(pointIndices, bufferSize, universe);
+    this.pointIndices = pointIndices;
+  }
+
+  public MultiplexedArtNet(int[] pointIndices, int universe) {
     super(pointIndices, pointIndices.length, universe);
     this.pointIndices = pointIndices;
   }
