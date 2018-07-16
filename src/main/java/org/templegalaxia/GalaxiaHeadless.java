@@ -4,11 +4,7 @@ import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.studio.LXStudio;
 import org.templegalaxia.configuration.Outputs;
-import org.templegalaxia.configuration.PatternLoader;
 import org.templegalaxia.model.Temple;
-import org.templegalaxia.patterns.gerald.*;
-import org.templegalaxia.patterns.matty.*;
-import org.templegalaxia.patterns.testing.*;
 import processing.core.PApplet;
 
 public class GalaxiaHeadless extends PApplet {
@@ -43,7 +39,6 @@ public class GalaxiaHeadless extends PApplet {
     // NOTE(meawoppl) this wants to be a classpath scan for annotations.
     public void initialize(LXStudio lx, LXStudio.UI ui) {
         Outputs outputs = new Outputs(lx, model);
-        PatternLoader loader = new PatternLoader(lx);
     }
 
     public void draw() {
