@@ -18,7 +18,7 @@ public class GalaxiaGui extends PApplet {
   LXStudio lx;
 
   public static void main(String args[]) {
-    PApplet.main(new String[] { GalaxiaGui.class.getName()} );
+    PApplet.main(new String[] {GalaxiaGui.class.getName()});
   }
 
   public void settings() {
@@ -38,7 +38,6 @@ public class GalaxiaGui extends PApplet {
 
     // Build outputs
     Outputs outputs = new Outputs(lx, model);
-
   }
 
   // NOTE(meawoppl) this wants to be a classpath scan for annotations.
