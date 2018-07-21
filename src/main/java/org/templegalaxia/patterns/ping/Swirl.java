@@ -1,48 +1,53 @@
 package org.templegalaxia.patterns.ping;
 
-import org.templegalaxia.patterns.TemplePattern;
-
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.DiscreteParameter;
+import org.templegalaxia.patterns.TemplePattern;
 
 @LXCategory("Ping")
 public class Swirl extends TemplePattern {
-  private CompoundParameter speedParam = new CompoundParameter("speed", 0, -0.1, 0.1);  // rev/s
-  private CompoundParameter massParam = new CompoundParameter("mass", 10, 0.1, 20);  // kg
-  private CompoundParameter flexParam = new CompoundParameter("flex", 1, 0, 4);  // rev
-  private CompoundParameter stiffnessParam = new CompoundParameter("stiffness", 1000, 0, 5000);  // kg/s^2
-  private CompoundParameter frictionParam = new CompoundParameter("friction", 1, 0, 2);  // kg rev/s
-  private DiscreteParameter spokesParam = new DiscreteParameter("spokes", 6, 1, 21);  // 1/rev
-  private CompoundParameter biasParam = new CompoundParameter("bias", 0, -10, 10);  // unitless
+  private CompoundParameter speedParam = new CompoundParameter("speed", 0, -0.1, 0.1); // rev/s
+  private CompoundParameter massParam = new CompoundParameter("mass", 10, 0.1, 20); // kg
+  private CompoundParameter flexParam = new CompoundParameter("flex", 1, 0, 4); // rev
+  private CompoundParameter stiffnessParam =
+      new CompoundParameter("stiffness", 1000, 0, 5000); // kg/s^2
+  private CompoundParameter frictionParam = new CompoundParameter("friction", 1, 0, 2); // kg rev/s
+  private DiscreteParameter spokesParam = new DiscreteParameter("spokes", 6, 1, 21); // 1/rev
+  private CompoundParameter biasParam = new CompoundParameter("bias", 0, -10, 10); // unitless
 
   private static final double TAU = 2 * Math.PI;
   private static final int NUM_SUBFRAMES = 100;
   private static final int NUM_SEGMENTS = 100;
-  private double[] pos = new double[NUM_SEGMENTS + 1];  // rev
-  private double[] vel = new double[NUM_SEGMENTS + 1];  // rev/s
+  private double[] pos = new double[NUM_SEGMENTS + 1]; // rev
+  private double[] vel = new double[NUM_SEGMENTS + 1]; // rev/s
 
   private double[] newPos = new double[NUM_SEGMENTS + 1];
   private double[] newVel = new double[NUM_SEGMENTS + 1];
 
   public Swirl(LX lx) {
     super(lx);
-    speedParam.setDescription("Rotational speed of motor driving the chain from the top (revolutions per second)");
+    speedParam.setDescription(
+        "Rotational speed of motor driving the chain from the top (revolutions per second)");
     addParameter(speedParam);
     massParam.setDescription("Mass of each chain element (kilograms)");
     addParameter(massParam);
-    flexParam.setDescription("Range of flexibility, maximum difference in rotational position between top and bottom (revolutions)");
+    flexParam.setDescription(
+        "Range of flexibility, maximum difference in rotational position between top and bottom (revolutions)");
     addParameter(flexParam);
-    stiffnessParam.setDescription("Stiffness of springs between chain elements (kilograms per second squared)");
+    stiffnessParam.setDescription(
+        "Stiffness of springs between chain elements (kilograms per second squared)");
     addParameter(stiffnessParam);
-    frictionParam.setDescription("Constant of kinetic friction (kilogram-revolutions per second squared)");
+    frictionParam.setDescription(
+        "Constant of kinetic friction (kilogram-revolutions per second squared)");
     addParameter(frictionParam);
     spokesParam.setDescription("Order of rotational symmetry (number per revolution)");
     addParameter(spokesParam);
-    biasParam.setDescription("Bias in rendered brightness (positive -> more white, negative -> more black)");
+    biasParam.setDescription(
+        "Bias in rendered brightness (positive -> more white, negative -> more black)");
     addParameter(biasParam);
   }
 
@@ -89,19 +94,23 @@ public class Swirl extends TemplePattern {
       double force = 0;
       if (i > 0) force += stiffness * (pos[i - 1] - pos[i]);
       if (i < NUM_SEGMENTS) force += stiffness * (pos[i + 1] - pos[i]);
-      force += (vel[i] < 0 ? friction : -friction); //-= vel[i] * friction;
+      force += (vel[i] < 0 ? friction : -friction); // -= vel[i] * friction;
       double accel = force / mass;
       newVel[i] = vel[i] + accel * deltaSec;
       newPos[i] = pos[i] + vel[i] * deltaSec;
       newPos[i] = clamp(newPos[i], newPos[i - 1] - range, newPos[i - 1] + range);
     }
     double[] tmp;
-    tmp = vel; vel = newVel; newVel = tmp;
-    tmp = pos; pos = newPos; newPos = tmp;
+    tmp = vel;
+    vel = newVel;
+    newVel = tmp;
+    tmp = pos;
+    pos = newPos;
+    newPos = tmp;
   }
 
   private double getPos(double y) {
-    double yFrac = (y - model.yMax) / (model.yMin - model.yMax);  // 0 at top, 1 at bottom
+    double yFrac = (y - model.yMax) / (model.yMin - model.yMax); // 0 at top, 1 at bottom
     double index = yFrac * NUM_SEGMENTS;
     int before = clamp((int) Math.floor(index), 0, NUM_SEGMENTS);
     int after = clamp((int) Math.ceil(index), 0, NUM_SEGMENTS);
