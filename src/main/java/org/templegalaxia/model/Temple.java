@@ -26,14 +26,14 @@ public class Temple extends LXModel {
 
     Fixture(PApplet applet) {
       LXTransform transform = new LXTransform();
-      int pixelsPerPetal = new Petal(transform).numPixels;
+      int pixelsPerPetal = -1;
 
       for (int i = 0; i < NUMBER_OF_PETALS; ++i) {
         Petal petal = new Petal(transform);
         addPoints(petal);
         this.petals.add(petal);
-
         transform.rotateY(ANGLE_BETWEEN_PETALS);
+        if (pixelsPerPetal == -1) pixelsPerPetal = petal.size;
       }
 
       // Reindex points into rings of the same height.
@@ -44,6 +44,7 @@ public class Temple extends LXModel {
         }
         rings.add(ring);
       }
+      assert rings.size() == petals.get(0).size;
 
     }
   }
