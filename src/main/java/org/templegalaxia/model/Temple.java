@@ -27,22 +27,24 @@ public class Temple extends LXModel {
     Fixture(PApplet applet) {
       LXTransform transform = new LXTransform();
       int pixelsPerPetal = new Petal(transform).numPixels;
-      for (int i = 0; i < pixelsPerPetal; i++) {
-        rings.add(new Ring(NUMBER_OF_PETALS));
-      }
 
       for (int i = 0; i < NUMBER_OF_PETALS; ++i) {
         Petal petal = new Petal(transform);
         addPoints(petal);
         this.petals.add(petal);
 
-        petal.getPoints().forEach((point) -> {});
-        for (int j = 0; j < petal.getPoints().size(); j++) {
-          rings.get(j).addPoint(petal.getPoints().get(j));
-        }
-
         transform.rotateY(ANGLE_BETWEEN_PETALS);
       }
+
+      // Reindex points into rings of the same height.
+      for (int i = 0; i < pixelsPerPetal; i++) {
+        Ring ring = new Ring();
+        for (Petal petal : petals) {
+          ring.addPoint(petal.getPoints().get(i));
+        }
+        rings.add(ring);
+      }
+
     }
   }
 }
