@@ -9,6 +9,7 @@ import org.templegalaxia.datagrams.MultiplexedArtNet;
 import org.templegalaxia.model.Temple;
 import org.templegalaxia.patterns.gerald.*;
 import org.templegalaxia.patterns.matty.*;
+import org.templegalaxia.patterns.pandores.Drahciug;
 import org.templegalaxia.patterns.ping.Swirl;
 import org.templegalaxia.patterns.testing.*;
 import processing.core.PApplet;
@@ -62,6 +63,7 @@ public class GalaxiaGui extends PApplet {
     lx.registerPattern(PetalIterator.class);
     lx.registerPattern(Teleport.class);
     lx.registerPattern(PetalChase.class);
+    lx.registerPattern(Drahciug.class);
     lx.registerPattern(Sparkle.class);
     lx.registerPattern(DebugOrder.class);
     lx.registerPattern(Swirl.class);
