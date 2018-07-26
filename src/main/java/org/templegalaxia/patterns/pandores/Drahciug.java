@@ -4,49 +4,65 @@ import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXPoint;
+import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.parameter.BoundedParameter;
 import org.templegalaxia.patterns.TemplePattern;
 
 @LXCategory("PanDoreS")
 public class Drahciug extends TemplePattern {
-  private final BoundedParameter Iterator = new BoundedParameter("Iterator", 0, 0, 1000);
-  private final BoundedParameter Step = new BoundedParameter("Step", 0, 1, 6);
+  private final BoundedParameter Effect = new BoundedParameter("Effect", 0, 1, 6);
+
+  BoundedParameter Speed = new BoundedParameter("Speed", 2500, 1000, 5000);
+
+  SawLFO saw = new SawLFO(0, 100, Speed.getValuef());
+
+  private float background = 0;
 
   public Drahciug(LX lx) {
     super(lx);
-    addParameter(Iterator);
-    addParameter(Step);
+    addModulator(saw).trigger();
+    addParameter(Effect);
+    addParameter(Speed);
   }
-
-  private int background = 0;
 
   public void run(double deltaMs) {
     for (LXPoint p : model.points) {
-      switch ((int) Step.getValue()) {
+      float current_saw = saw.getValuef();
+      switch ((int) Effect.getValue()) {
         case 1:
-          background += 1;
+          background += 2;
+          saw.setPeriod(Speed.getValuef());
           break;
         case 2:
           background += 4;
+          saw.setPeriod(Speed.getValuef() / 2);
           break;
         case 3:
-          background += 9;
+          background += 5;
+          saw.setPeriod(Speed.getValuef() / 2);
           break;
         case 4:
-          background += 12;
+          background += 11;
+          saw.setPeriod(Speed.getValuef() / 2.5);
           break;
         case 5:
           background += 17;
+          saw.setPeriod(Speed.getValuef() / 5);
           break;
         case 6:
-          background += 25;
+          background += 24;
+          saw.setPeriod(Speed.getValuef() / 6);
           break;
         default:
           background++;
           break;
       }
-      colors[p.index] = LXColor.hsb(0, 0, ((background++) + Iterator.getValue()));
-      if (background >= 100) {
+      if ((background + current_saw) <= 100) {
+        colors[p.index] = LXColor.hsb(0, 0, background + current_saw);
+      } else {
+        colors[p.index] = LXColor.hsb(0, 0, (background + current_saw) - 100);
+      }
+      if ((background) >= 100) {
         background = 0;
       }
     }
