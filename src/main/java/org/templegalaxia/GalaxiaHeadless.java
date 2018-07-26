@@ -36,7 +36,7 @@ public class GalaxiaHeadless extends PApplet {
   }
 
   // NOTE(meawoppl) this wants to be a classpath scan for annotations.
-  public void initialize(LXStudio lx, LXStudio.UI ui) { 
+  public void initialize(LXStudio lx, LXStudio.UI ui) {
     Outputs outputs = new Outputs(lx, model);
   }
 

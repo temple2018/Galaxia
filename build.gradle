@@ -37,3 +37,8 @@ jar {
                 "Main-Class": "org.templegalaxia.GalaxiaGui")
     }
 }
+
+task headlessRun(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'org.templegalaxia.GalaxiaHeadless'
+}

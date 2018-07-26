@@ -1,13 +1,8 @@
 package org.templegalaxia;
 
 import heronarts.lx.model.LXModel;
-import heronarts.lx.output.LXDatagramOutput;
 import heronarts.lx.studio.LXStudio;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-
 import org.templegalaxia.configuration.Outputs;
-import org.templegalaxia.datagrams.MultiplexedArtNet;
 import org.templegalaxia.model.Temple;
 import org.templegalaxia.patterns.gerald.*;
 import org.templegalaxia.patterns.matty.*;
@@ -32,18 +27,17 @@ public class GalaxiaGui extends PApplet {
   }
 
   public void setup() {
-    startupInfo();
-
     // Load model
     LXModel model = new Temple(this);
 
     // Initialize LX
-    LXStudio lx = new LXStudio(this, model, MULTITHREADED);
+    lx = new LXStudio(this, model, MULTITHREADED);
 
     // Configure UI
     lx.ui.setResizable(RESIZEABLE);
     lx.ui.preview.pointCloud.setPointSize(20);
 
+    // Build outputs
     Outputs outputs = new Outputs(lx, model);
   }
 
@@ -62,9 +56,5 @@ public class GalaxiaGui extends PApplet {
 
   public void draw() {
     // Handled by LXStudio
-  }
-
-  private void startupInfo() {
-    PApplet.println("Running sketch from ", sketchPath());
   }
 }
