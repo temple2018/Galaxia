@@ -2,3 +2,5 @@
 *.iml
 .gradle
 build/
+
+.lxproject
