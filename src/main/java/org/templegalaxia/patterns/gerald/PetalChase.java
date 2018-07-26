@@ -16,7 +16,7 @@ public class PetalChase extends TemplePattern {
   private double lfoPosition = 0;
 
   private BoundedParameter blurParam =
-      new BoundedParameter("blurParam", Petal.NUM_PIXELS / 6, 1, Petal.NUM_PIXELS / 2)
+      new BoundedParameter("blurParam", Petal.numPixels / 6, 1, Petal.numPixels / 2)
           .setDescription("Distance of trailing lights");
 
   private BoundedParameter speedParam =
@@ -25,7 +25,7 @@ public class PetalChase extends TemplePattern {
   private BoundedParameter jitterParam =
       new BoundedParameter("Jitter", 1, 1, 3).setDescription("Jitter the lights on each petal");
 
-  private SinLFO pixelLFO = new SinLFO(0, Petal.NUM_PIXELS, speedParam);
+  private SinLFO pixelLFO = new SinLFO(0, Petal.numPixels, speedParam);
 
   public PetalChase(LX lx) {
     super(lx);
@@ -44,7 +44,7 @@ public class PetalChase extends TemplePattern {
     int remapPixel =
         (int)
             PApplet.map(
-                (float) currentPixel, 0, Petal.NUM_PIXELS, -blurVal, Petal.NUM_PIXELS + blurVal);
+                (float) currentPixel, 0, Petal.numPixels, -blurVal, Petal.numPixels + blurVal);
 
     // Determine the oscilators direction, store currentPixel for the next run
     double lfoDirection = Math.signum(currentPixel - lfoPosition);
@@ -74,7 +74,7 @@ public class PetalChase extends TemplePattern {
                 }
 
                 // Ensure that the blurPixel is a pixel in reality
-                if (0 <= blurPixel && blurPixel < Petal.NUM_PIXELS) {
+                if (0 <= blurPixel && blurPixel < Petal.numPixels) {
                   int pointIndex = petalIndexToPointIndex(blurPixel, petalNum);
 
                   // Modify brightness based on the distance form the zeroth point
