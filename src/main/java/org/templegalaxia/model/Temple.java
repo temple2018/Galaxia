@@ -4,9 +4,7 @@ import heronarts.lx.model.LXAbstractFixture;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.transform.LXTransform;
-
 import java.util.*;
-
 import org.templegalaxia.patterns.TemplePattern;
 import processing.core.PApplet;
 
@@ -25,11 +23,12 @@ public class Temple extends LXModel {
 
     this.petals = Collections.unmodifiableList(f.petals);
     this.rings = Collections.unmodifiableList(f.rings);
-    this.pointToPixelMap = Collections.unmodifiableMap(f.pointToPixelMap) ;
+    this.pointToPixelMap = Collections.unmodifiableMap(f.pointToPixelMap);
   }
 
   /**
    * Return the global pixel index of the given model point
+   *
    * @param point the point in question
    * @return The global pixel index
    */
