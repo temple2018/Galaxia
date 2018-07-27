@@ -29,7 +29,7 @@ public class Petal extends LXModel {
         parser =
             new CSVParser(
                 new BufferedReader(
-                    new InputStreamReader(Petal.class.getResourceAsStream("points.csv"))),
+                    new InputStreamReader(Petal.class.getResourceAsStream("petalPoints.csv"))),
                 CSVFormat.EXCEL.withHeader());
       } catch (Exception e) {
         // Coherce to non checked exceptions.
