@@ -1,29 +1,20 @@
 package org.templegalaxia.model;
 
 import heronarts.lx.model.LXAbstractFixture;
+import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
-public class Ring extends LXAbstractFixture {
-  private Map<LXPoint, Integer> pixelIdxMap = new HashMap<LXPoint, Integer>();
-
-  public LXAbstractFixture addIndexedPoint(LXPoint lxPoint, int pixelIndex) {
-    pixelIdxMap.put(lxPoint, pixelIndex);
-    return super.addPoint(lxPoint);
+public class Ring extends LXModel {
+  public Ring(List<LXPoint> points) {
+    super(new Fixture(points));
   }
 
-  public int getPixelIndex() {
-    return getPixelIndex();
-  }
-
-  /**
-   * Return the pixel index associated with the given point.
-   *
-   * @param lxPoint
-   * @return Index in the point in absolute model space (i.e. the index in the Model.colors array)
-   */
-  public int getPixelIndex(LXPoint lxPoint) {
-    return pixelIdxMap.get(lxPoint);
+  private static class Fixture extends LXAbstractFixture {
+    private Fixture(List<LXPoint> points) {
+      for (LXPoint point : points) {
+        addPoint(point);
+      }
+    }
   }
 }

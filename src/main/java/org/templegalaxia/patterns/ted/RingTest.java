@@ -37,7 +37,7 @@ public class RingTest extends TemplePattern {
 
     selectedPointIndexes.clear();
     for (LXPoint point : selectedRing.getPoints()) {
-      int idx = selectedRing.getPixelIndex(point);
+      int idx = model.getPixelIndex(point);
       selectedPointIndexes.add(idx);
     }
     for (int i = 0; i < colors.length; i++) {
