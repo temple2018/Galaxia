@@ -16,7 +16,7 @@ public class Temple extends LXModel {
 
   public final List<Petal> petals;
   public final List<Ring> rings;
-  private final Map<LXPoint, Integer> pointIndex;
+  private final Map<LXPoint, Integer> pointToPixelMap;
 
   public Temple(PApplet applet) {
     super(new Fixture(applet));
@@ -25,7 +25,7 @@ public class Temple extends LXModel {
 
     this.petals = Collections.unmodifiableList(f.petals);
     this.rings = Collections.unmodifiableList(f.rings);
-    this.pointIndex = Collections.unmodifiableMap(f.pointIndex) ;
+    this.pointToPixelMap = Collections.unmodifiableMap(f.pointToPixelMap) ;
   }
 
   /**
@@ -34,13 +34,13 @@ public class Temple extends LXModel {
    * @return The global pixel index
    */
   public int getPixelIndex(LXPoint point) {
-    return this.pointIndex.get(point);
+    return this.pointToPixelMap.get(point);
   }
 
   private static class Fixture extends LXAbstractFixture {
     private final List<Petal> petals = new ArrayList<>();
     private final List<Ring> rings = new ArrayList<>();
-    private final Map<LXPoint, Integer> pointIndex = new HashMap<>();
+    private final Map<LXPoint, Integer> pointToPixelMap = new HashMap<>();
 
     Fixture(PApplet applet) {
       LXTransform transform = new LXTransform();
@@ -69,7 +69,7 @@ public class Temple extends LXModel {
           LXPoint point = petals.get(petalItr).getPoints().get(pointItr);
           points.add(point);
           int pixelIdx = TemplePattern.petalIndexToPointIndex(pointItr, petalItr);
-          pointIndex.put(point, pixelIdx);
+          pointToPixelMap.put(point, pixelIdx);
         }
         rings.add(new Ring(points));
       }
