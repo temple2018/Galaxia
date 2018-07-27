@@ -10,9 +10,9 @@ import org.templegalaxia.patterns.TemplePattern;
 
 @LXCategory("PanDoreS")
 public class Drahciug extends TemplePattern {
-  private final BoundedParameter Effect = new BoundedParameter("Effect", 0, 1, 6);
+  private final BoundedParameter Effect = new BoundedParameter("Effect", 0, 1, 5);
 
-  BoundedParameter Speed = new BoundedParameter("Speed", 2500, 1000, 5000);
+  BoundedParameter Speed = new BoundedParameter("Speed", 50000, 3000, 75000);
 
   SawLFO saw = new SawLFO(0, 100, Speed.getValuef());
 
@@ -43,15 +43,11 @@ public class Drahciug extends TemplePattern {
           break;
         case 4:
           background += 11;
-          saw.setPeriod(Speed.getValuef() / 2.5);
+          saw.setPeriod(Speed.getValuef() / 4);
           break;
         case 5:
           background += 17;
           saw.setPeriod(Speed.getValuef() / 5);
-          break;
-        case 6:
-          background += 24;
-          saw.setPeriod(Speed.getValuef() / 6);
           break;
         default:
           background++;

@@ -12,7 +12,7 @@ import org.templegalaxia.patterns.TemplePattern;
 @LXCategory("PanDoreS")
 public class EiffelTower extends TemplePattern {
   private final BoundedParameter Stars = new BoundedParameter("Stars", 1, 1, 20);
-  BoundedParameter Speed = new BoundedParameter("Speed", 50, 0, 100);
+  BoundedParameter Speed = new BoundedParameter("Speed", 50, 0, 1000);
   // Random background activated or not
   BooleanParameter Mode = new BooleanParameter("Mode", false);
 

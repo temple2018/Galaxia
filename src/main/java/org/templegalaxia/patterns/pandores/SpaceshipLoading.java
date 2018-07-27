@@ -10,7 +10,7 @@ import org.templegalaxia.patterns.TemplePattern;
 
 @LXCategory("PanDoreS")
 public class SpaceshipLoading extends TemplePattern {
-  BoundedParameter Speed = new BoundedParameter("Speed", 500, 300, 10000);
+  BoundedParameter Speed = new BoundedParameter("Speed", 25000, 1000, 30000);
   BooleanParameter Inversed = new BooleanParameter("Inversed", false);
 
   SinLFO SinLFO_Var = new SinLFO(model.yMin, model.yMax, Speed.getValue());
