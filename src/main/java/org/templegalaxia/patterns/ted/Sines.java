@@ -43,7 +43,7 @@ public class Sines extends TemplePattern {
         double angle = 2 * Math.PI / ring.getPoints().size() * j;
         double value = 100 * Math.sin(time.getValue() + freqParam.getValue() * angle + phase);
         value *= brightnessParam.getValue();
-        colors[ring.getPixelIndex(point)] = LXColor.hsb(0, 0, value);
+        colors[model.getPixelIndex(point)] = LXColor.hsb(0, 0, value);
         j++;
       }
       phase += phaseOffsetParam.getValue();
