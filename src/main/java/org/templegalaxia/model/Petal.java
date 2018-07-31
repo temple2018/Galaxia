@@ -13,7 +13,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 public class Petal extends LXModel {
-  public static final int NUM_PIXELS;
+  public static final int numPixels;
 
   public Petal(LXTransform transform) {
     super(new Fixture(transform));
@@ -50,7 +50,7 @@ public class Petal extends LXModel {
 
       System.out.println(String.format("Loaded %d points.", xyzs.size()));
     }
-    NUM_PIXELS = xyzs.size();
+    numPixels = xyzs.size();
   }
 
   private static class Fixture extends LXAbstractFixture {
