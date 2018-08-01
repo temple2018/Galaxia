@@ -9,39 +9,37 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 public class PointLoader {
-  private List<float[]> xyzs = new ArrayList<>();
+  private List<float[]> pointArray = new ArrayList<>();
   private int numPixels = 0;
   private String resourceName;
+  private boolean loadPoints = true;
 
   // NOTE(G3): There is a coordinate systems mismatched between rhino & Processing
-  private String coordinateOrder = "yzx";
+  private static String DEFAULT_COORDINATE_ORDER = "yzx";
 
   public PointLoader(String resourceName) {
-    this.resourceName = resourceName;
-
-    LoadResource();
+    this(resourceName, DEFAULT_COORDINATE_ORDER);
   }
 
   public PointLoader(String resourceName, String coordinateOrder) {
-    this.coordinateOrder = coordinateOrder;
+    DEFAULT_COORDINATE_ORDER = coordinateOrder;
     this.resourceName = resourceName;
 
-    LoadResource();
+    loadResources();
   }
 
   public List<float[]> getPoints() {
-    return xyzs;
+    return pointArray;
   }
 
   public int getNumPixels() {
     return numPixels;
   }
 
-  private void LoadResource() {
-    if (xyzs.size() == 0) {
+  private void loadResources() {
+    if (loadPoints) {
       CSVParser parser;
       try {
-        System.out.println("YO");
         parser =
             new CSVParser(
                 new BufferedReader(
@@ -52,20 +50,23 @@ public class PointLoader {
         throw new RuntimeException(e);
       }
 
-      // Read in all the xyzs
+      // Read in all the pointArray
       for (CSVRecord csvRecord : parser) {
-        float[] pointCoordinates = new float[coordinateOrder.length()];
+        float[] pointCoordinates = new float[DEFAULT_COORDINATE_ORDER.length()];
 
         int ii = 0;
-        for (char ordinate : coordinateOrder.toCharArray()) {
-          pointCoordinates[ii] = Float.parseFloat(csvRecord.get((String.valueOf(ordinate))));
+        for (char ordinate : DEFAULT_COORDINATE_ORDER.toCharArray()) {
+          pointCoordinates[ii] = Float.parseFloat(csvRecord.get(String.valueOf(ordinate)));
           ii += 1;
         }
-        xyzs.add(pointCoordinates);
+        pointArray.add(pointCoordinates);
       }
-
-      System.out.println(String.format("Loaded %d points.", xyzs.size()));
+      loadPoints = false;
+      System.out.println(
+          String.format("Loaded %d points from %s", pointArray.size(), resourceName));
+    } else {
+      System.out.println(String.format("Already loaded points for %s, skipping!", resourceName));
     }
-    this.numPixels = xyzs.size();
+    this.numPixels = pointArray.size();
   }
 }
