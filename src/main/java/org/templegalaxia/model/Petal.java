@@ -7,17 +7,17 @@ import heronarts.lx.transform.LXTransform;
 
 public class Petal extends LXModel {
 
+  private static PointLoader pointArray = new PointLoader("petalPoints.csv");
+
+  public static int numPixels = pointArray.getNumPixels();
+
   public Petal(LXTransform transform) {
     super(new Fixture(transform));
   }
 
-  //  private static List<float[]> xyzs = new ArrayList<>();
-  private static PointLoader xyzs = new PointLoader("petalPoints.csv");
-  public static int numPixels = xyzs.getNumPixels();
-
   private static class Fixture extends LXAbstractFixture {
     Fixture(LXTransform transform) {
-      for (float[] xyz : xyzs.getPoints()) {
+      for (float[] xyz : pointArray.getPoints()) {
         transform.push();
 
         transform.translate(xyz[0], xyz[1], xyz[2]);
