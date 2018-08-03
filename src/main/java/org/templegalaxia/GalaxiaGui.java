@@ -38,6 +38,12 @@ public class GalaxiaGui extends PApplet {
     // Configure UI
     lx.ui.setResizable(RESIZEABLE);
 
+    // Open the default project if none is saved
+    if (lx.getProject() == null) {
+      System.out.println("Loading the Default project");
+      lx.openProject(this.saveFile("projects/Default.lxp"));
+    }
+
     // Build outputs
     Outputs outputs = new Outputs(lx, model);
   }
