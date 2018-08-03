@@ -54,6 +54,7 @@ public class GalaxiaGui extends PApplet {
     lx.registerPattern(DebugOrder.class);
     lx.registerPattern(Swirl.class);
     lx.registerPattern(RingTest.class);
+    lx.registerPattern(PetalPointIndex.class);
   }
 
   public void draw() {
