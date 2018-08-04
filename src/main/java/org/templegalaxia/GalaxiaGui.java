@@ -4,6 +4,7 @@ import heronarts.lx.model.LXModel;
 import heronarts.lx.studio.LXStudio;
 import org.templegalaxia.configuration.Outputs;
 import org.templegalaxia.model.Temple;
+import org.templegalaxia.patterns.alanpersak.DebugPattern;
 import org.templegalaxia.patterns.alanpersak.MessagePattern;
 import org.templegalaxia.patterns.alanpersak.StarPattern;
 import org.templegalaxia.patterns.alanpersak.WavePattern;
@@ -57,9 +58,12 @@ public class GalaxiaGui extends PApplet {
     lx.registerPattern(DebugOrder.class);
     lx.registerPattern(Swirl.class);
     lx.registerPattern(RingTest.class);
+
+    // Alan Persak's patterns:
     lx.registerPattern(MessagePattern.class);
     lx.registerPattern(StarPattern.class);
     lx.registerPattern(WavePattern.class);
+    lx.registerPattern(DebugPattern.class);
   }
 
   public void draw() {
