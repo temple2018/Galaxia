@@ -11,6 +11,7 @@ public class Temple extends LXModel {
   private static final int NUMBER_OF_PETALS = 20;
   private static final float ANGLE_BETWEEN_PETALS = PApplet.radians(360 / NUMBER_OF_PETALS);
 
+  public final List<RotatableFixture> groundArcs;
   public final List<Petal> petals;
   public final List<Ring> rings;
   public final List<Spoke> spokes;
@@ -20,31 +21,39 @@ public class Temple extends LXModel {
 
     Fixture f = (Fixture) this.fixtures.get(0);
 
+    this.groundArcs = Collections.unmodifiableList(f.groundArcs);
     this.petals = Collections.unmodifiableList(f.petals);
     this.rings = Collections.unmodifiableList(f.rings);
     this.spokes = Collections.unmodifiableList(f.spokes);
   }
 
   private static class Fixture extends LXAbstractFixture {
+    private final List<RotatableFixture> groundArcs = new ArrayList<>();
     private final List<Petal> petals = new ArrayList<>();
     private final List<Ring> rings = new ArrayList<>();
     private final List<Spoke> spokes = new ArrayList<>();
 
-    private static PointLoader lowerPetalLoader = new PointLoader("lowerPetalPoints.csv");
     private static PointLoader groundArcLoader = new PointLoader("groundArcPoints.csv");
+    private static PointLoader lowerPetalLoader = new PointLoader("lowerPetalPoints.csv");
     private static PointLoader upperPetalLoader = new PointLoader("upperPetalPoints.csv");
 
+    /**
+     *
+     * @param applet
+     */
     Fixture(PApplet applet) {
       LXTransform transform = new LXTransform();
 
       for (int i = 0; i < NUMBER_OF_PETALS; ++i) {
         RotatableFixture lowerPetal = new RotatableFixture(transform, lowerPetalLoader);
-//        RotatableFixture groundArc = new RotatableFixture(transform, groundArcLoader);
+        RotatableFixture groundArc = new RotatableFixture(transform, groundArcLoader);
         RotatableFixture upperPetal = new RotatableFixture(transform, upperPetalLoader);
+
+        addPoints(groundArc);
+        this.groundArcs.add(groundArc);
 
         Petal petal = new Petal(lowerPetal, upperPetal);
         addPoints(petal);
-
         this.petals.add(petal);
 
         transform.rotateY(ANGLE_BETWEEN_PETALS);
