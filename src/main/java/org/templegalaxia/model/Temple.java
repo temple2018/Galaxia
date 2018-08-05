@@ -45,6 +45,7 @@ public class Temple extends LXModel {
       LXTransform transform = new LXTransform();
       int pixelsPerPetal = -1;
 
+      // Build the spokes
       for (int i = 0; i < NUMBER_OF_PETALS; ++i) {
         Petal petal = new Petal(transform);
         addPoints(petal);

@@ -5,11 +5,11 @@ import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.transform.LXTransform;
 
+import java.util.Collections;
+
 public class Petal extends LXModel {
 
-  private static PointLoader pointLoader = new PointLoader("petalPoints.csv");
-
-  public static int numPixels = pointLoader.getNumPixels();
+  public static int numPixels;
 
   public Petal(LXTransform transform) {
     super(new Fixture(transform));
@@ -17,13 +17,16 @@ public class Petal extends LXModel {
 
   private static class Fixture extends LXAbstractFixture {
     Fixture(LXTransform transform) {
-      for (float[] xyz : pointLoader.getPoints()) {
-        transform.push();
+      LowerPetal lowerPetal = new LowerPetal(transform);
+      UpperPetal upperPetal = new UpperPetal(transform);
 
-        transform.translate(xyz[0], xyz[1], xyz[2]);
-        addPoint(new LXPoint(transform));
+      numPixels = lowerPetal.getPoints().size() + upperPetal.getPoints().size();
+      for (int lowerItr = LowerPetal.numPixels - 1; lowerItr >= 0; lowerItr--){
+        addPoint(lowerPetal.getPoints().get(lowerItr));
+      }
 
-        transform.pop();
+      for (LXPoint p : upperPetal.getPoints()){
+        addPoint(p);
       }
     }
   }
