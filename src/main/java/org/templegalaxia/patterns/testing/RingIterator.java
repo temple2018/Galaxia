@@ -21,7 +21,7 @@ public class RingIterator extends TemplePattern {
     for (LXPoint p : model.points) {
       colors[p.index] = LXColor.BLACK;
     }
-    
+
     for (LXPoint p : model.rings.get((int) ringNum.getValuef()).points) {
       colors[p.index] = LXColor.WHITE;
     }

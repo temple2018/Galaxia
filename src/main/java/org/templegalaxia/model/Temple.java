@@ -37,10 +37,7 @@ public class Temple extends LXModel {
     private static PointLoader lowerPetalLoader = new PointLoader("lowerPetalPoints.csv");
     private static PointLoader upperPetalLoader = new PointLoader("upperPetalPoints.csv");
 
-    /**
-     *
-     * @param applet
-     */
+    /** @param applet */
     Fixture(PApplet applet) {
       LXTransform transform = new LXTransform();
 

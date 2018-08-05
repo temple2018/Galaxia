@@ -5,24 +5,23 @@ import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 
 public class Spoke extends LXModel {
-    public static int numPixels;
+  public static int numPixels;
 
-    public Spoke(Petal petal, GroundArc groundArc){
-        super(new Fixture(petal, groundArc));
+  public Spoke(Petal petal, GroundArc groundArc) {
+    super(new Fixture(petal, groundArc));
+  }
+
+  private static class Fixture extends LXAbstractFixture {
+    Fixture(Petal petal, GroundArc groundArc) {
+      numPixels = petal.getPoints().size() + groundArc.getPoints().size();
+
+      for (int groundItr = groundArc.getPoints().size() - 1; groundItr >= 0; groundItr--) {
+        addPoint(groundArc.getPoints().get(groundItr));
+      }
+
+      for (LXPoint p : petal.getPoints()) {
+        addPoint(p);
+      }
     }
-
-    private static class Fixture extends LXAbstractFixture {
-        Fixture(Petal petal, GroundArc groundArc){
-            numPixels = Petal.numPixels + GroundArc.numPixels;
-
-            for (int groundItr = groundArc.getPoints().size() - 1; groundItr >= 0; groundItr--){
-                addPoint(groundArc.getPoints().get(groundItr));
-            }
-
-            for (LXPoint p : petal.getPoints()){
-                addPoint(p);
-            }
-
-        }
-    }
+  }
 }
