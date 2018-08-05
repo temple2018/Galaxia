@@ -18,10 +18,12 @@ public class WavePattern extends TemplePattern {
 
     private static final double TAU = 2 * Math.PI;
     private static final double TIME_SCALE = 5;
-    private static final double DECAY = 5000;
-    private static final int MIN_BRIGHTNESS = 10;
-    private static final double RAMP = 2000;
+    private static final double DECAY = 10000;
+    private static final int MIN_BRIGHTNESS = 5;
     private static final double SPEED = 500;
+    private static final double FRONT_FADE = 1500;
+    private static final double SIDE_FADE = .2;
+    private static final double MIN_WAVE_DIRECTION_OFFSET = Math.PI/2;
 
     private Random random = new Random();
     private LinkedList<Wave> waves = new LinkedList<Wave>();
@@ -30,6 +32,7 @@ public class WavePattern extends TemplePattern {
     private double[] radii;
     private double waveTimer;
     private double nextWaveTime = 0;
+    private double lastWaveDirection = 0;
 
     public WavePattern(LX lx) {
         super(lx);
@@ -45,30 +48,20 @@ public class WavePattern extends TemplePattern {
         }
     }
 
-    double printTimer = 0;
+    double statTimer = 0;
     int frameCounter = 0;
 
     public void run(double deltaMs) {
-        frameCounter++;
 
         // Print stats every 10 real seconds.
-        printTimer += deltaMs / 1000;
-        if(printTimer > 10){
-            /*double size = 1;
-            double direction = dir;
-            dir += Math.PI/2;
-            if(dir >= 2*Math.PI){
-                dir = 0;
-            }
-            System.out.println("new wave " + size + " " + direction);
-            waves.add(new Wave(MIN_POSITION, 1000, size, direction, 100));*/
-
+        frameCounter++;
+        statTimer += deltaMs / 1000;
+        if(statTimer > 10){
             System.out.println("\nstats:");
             System.out.println("wave count: " + waves.size());
-            System.out.println("frame rate: " + frameCounter / waveTimer);
-
-            printTimer = 0;
+            System.out.println("frame rate: " + frameCounter / statTimer);
             frameCounter = 0;
+            statTimer = 0;
         }
 
         // Create new waves based on scaled time.
@@ -76,11 +69,17 @@ public class WavePattern extends TemplePattern {
         waveTimer += scaledDelta / 1000;
         if(waveTimer > nextWaveTime){
             waveTimer = 0;
-            nextWaveTime = randomDouble(random, 5, 10, 100);
+            nextWaveTime = randomDouble(random, 20, 30, 100);
 
-            double direction = randomDouble(random, 0, TAU, 360);
-            double size = randomDouble(random, .5, 3, 100);
+            double minDirection = lastWaveDirection + MIN_WAVE_DIRECTION_OFFSET;
+            double maxDirection = lastWaveDirection - MIN_WAVE_DIRECTION_OFFSET + TAU;
+            double direction = randomDouble(random, minDirection, maxDirection, 360);
+            lastWaveDirection = direction;
+
+            double size = randomDouble(random, 1, 3.5, 100);
             waves.add(new Wave(MIN_POSITION, SPEED, size, direction, 100));
+
+            //waves.add(new Wave(MIN_POSITION, SPEED, 1, 0, 100));
 
             System.out.println("\nnew wave: " + direction + " " + size);
             System.out.println("next wave: " + nextWaveTime);
@@ -103,7 +102,7 @@ public class WavePattern extends TemplePattern {
     }
 
     private static double MIN_POSITION = 1000; // Minimum measured radius: 3508
-    private static final double MAX_POSITION = 60000;  // Maximum measured radius: 28769
+    private static final double MAX_POSITION = 100000;  // Maximum measured radius: 28769
 
     private class Wave {
 
@@ -132,16 +131,25 @@ public class WavePattern extends TemplePattern {
                     continue;
                 }
                 double radius = radii[i];
-                if (radius > position + RAMP) {
+                if (radius > position) {
                     continue;
                 }
-                double brightness = LXColor.b(colors[model.points[i].index]);
-                if (radius > position) {
-                    brightness = (int)linearInterpolate(position + RAMP - radius, 0, brightness, RAMP, intensity);
+                double oldBrightness = LXColor.b(colors[model.points[i].index]);
+                double brightness;
+                if (radius > position - FRONT_FADE) {
+                    // handle fade into wave
+                    brightness = (int)linearInterpolate(position - radius, 0, oldBrightness, FRONT_FADE, intensity);
 
                 } else {
-                    brightness = (int) (intensity * Math.pow(2, (radius - position) / DECAY));
+                    brightness = (int) (intensity * Math.pow(2, (radius - position + FRONT_FADE) / DECAY));
                     brightness = Math.max(brightness, MIN_BRIGHTNESS);
+                }
+                // handle side fade
+                if (isAngleInRange(angle, maxAngle - SIDE_FADE, maxAngle)){
+                    brightness = (int)linearInterpolate(maxAngle - angle, 0, oldBrightness, SIDE_FADE, brightness);
+                }
+                if (isAngleInRange(angle, minAngle, minAngle + SIDE_FADE)){
+                    brightness = (int)linearInterpolate(angle - minAngle, 0, oldBrightness, SIDE_FADE, brightness);
                 }
                 colors[model.points[i].index] = LXColor.hsb(0, 0, brightness);
             }
