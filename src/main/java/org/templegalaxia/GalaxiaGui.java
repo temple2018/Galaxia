@@ -6,6 +6,7 @@ import org.templegalaxia.configuration.Outputs;
 import org.templegalaxia.model.Temple;
 import org.templegalaxia.patterns.gerald.*;
 import org.templegalaxia.patterns.matty.*;
+import org.templegalaxia.patterns.mcslee.*;
 import org.templegalaxia.patterns.ping.Swirl;
 import org.templegalaxia.patterns.ted.RingTest;
 import org.templegalaxia.patterns.testing.*;
@@ -36,7 +37,12 @@ public class GalaxiaGui extends PApplet {
 
     // Configure UI
     lx.ui.setResizable(RESIZEABLE);
-    lx.ui.preview.pointCloud.setPointSize(20);
+
+    // Open the default project if none is saved
+    if (lx.getProject() == null) {
+      System.out.println("Loading the Default project");
+      lx.openProject(this.saveFile("projects/Default.lxp"));
+    }
 
     // Build outputs
     Outputs outputs = new Outputs(lx, model);
@@ -54,6 +60,14 @@ public class GalaxiaGui extends PApplet {
     lx.registerPattern(DebugOrder.class);
     lx.registerPattern(Swirl.class);
     lx.registerPattern(RingTest.class);
+    lx.registerPattern(Crawlers.class);
+    lx.registerPattern(Synchronicity.class);
+    lx.registerPattern(Clouds.class);
+    lx.registerPattern(Lava.class);
+  }
+
+  public void onUIReady(LXStudio lx, LXStudio.UI ui) {
+    lx.ui.preview.pointCloud.setPointSize(20);
   }
 
   public void draw() {
