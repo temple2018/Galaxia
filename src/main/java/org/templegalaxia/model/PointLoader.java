@@ -15,14 +15,15 @@ public class PointLoader {
   private boolean loadPoints = true;
 
   // NOTE(G3): There is a coordinate systems mismatched between rhino & Processing
-  private static String DEFAULT_COORDINATE_ORDER = "yzx";
+  private static final String DEFAULT_COORDINATE_ORDER = "yzx";
+  private String coordinateOrder;
 
   public PointLoader(String resourceName) {
     this(resourceName, DEFAULT_COORDINATE_ORDER);
   }
 
   public PointLoader(String resourceName, String coordinateOrder) {
-    DEFAULT_COORDINATE_ORDER = coordinateOrder;
+    this.coordinateOrder = coordinateOrder;
     this.resourceName = resourceName;
 
     loadResources();
@@ -52,10 +53,10 @@ public class PointLoader {
 
       // Read in all the pointArray
       for (CSVRecord csvRecord : parser) {
-        float[] pointCoordinates = new float[DEFAULT_COORDINATE_ORDER.length()];
+        float[] pointCoordinates = new float[coordinateOrder.length()];
 
         int ii = 0;
-        for (char ordinate : DEFAULT_COORDINATE_ORDER.toCharArray()) {
+        for (char ordinate : coordinateOrder.toCharArray()) {
           pointCoordinates[ii] = Float.parseFloat(csvRecord.get(String.valueOf(ordinate)));
           ii += 1;
         }
