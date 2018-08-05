@@ -7,7 +7,7 @@ import heronarts.lx.transform.LXTransform;
 
 public class GroundArc extends LXModel {
 
-  private static PointLoader pointLoader = new PointLoader("floorPoints.csv");
+  private static PointLoader pointLoader = new PointLoader("groundArcPoints.csv");
 
   public static int numPixels = pointLoader.getNumPixels();
 

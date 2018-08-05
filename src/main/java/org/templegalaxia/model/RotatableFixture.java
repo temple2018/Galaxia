@@ -5,19 +5,18 @@ import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.transform.LXTransform;
 
-public class UpperPetal extends LXModel {
+public class RotatableFixture extends LXModel {
 
-  private static PointLoader pointLoader = new PointLoader("upperPetalPoints.csv");
+  public static int numPixels;
 
-  public static int numPixels = pointLoader.getNumPixels();
-
-  public UpperPetal(LXTransform transform) {
-    super(new Fixture(transform));
+  public RotatableFixture(LXTransform transform, PointLoader pointLoader) {
+    super(new Fixture(transform, pointLoader));
   }
 
   private static class Fixture extends LXAbstractFixture {
 
-    Fixture(LXTransform transform) {
+    Fixture(LXTransform transform, PointLoader pointLoader) {
+      numPixels = pointLoader.getNumPixels();
       for (float[] xyz : pointLoader.getPoints()) {
         transform.push();
 

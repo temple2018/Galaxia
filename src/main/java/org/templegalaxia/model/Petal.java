@@ -3,44 +3,30 @@ package org.templegalaxia.model;
 import heronarts.lx.model.LXAbstractFixture;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.transform.LXTransform;
-
-import java.util.Collections;
 
 public class Petal extends LXModel {
 
   public static int numPixels;
 
-  public Petal(LXTransform transform) {
-    super(new Fixture(transform));
-  }
-
-  public Petal(LowerPetal lowerPetal, UpperPetal upperPetal){
+  public Petal(RotatableFixture lowerPetal, RotatableFixture upperPetal){
     super(new Fixture(lowerPetal, upperPetal));
   }
 
-  private static class LoadPetalChunks {
-    LoadPetalChunks(Fixture fixture, LowerPetal lowerPetal, UpperPetal upperPetal){
+  private static class Fixture extends LXAbstractFixture {
+    Fixture(RotatableFixture lowerPetal, RotatableFixture upperPetal){
       numPixels = lowerPetal.getPoints().size() + upperPetal.getPoints().size();
-      for (int lowerItr = LowerPetal.numPixels - 1; lowerItr >= 0; lowerItr--){
-        fixture.addPoint(lowerPetal.getPoints().get(lowerItr));
+
+      // NOTE(G3): We must build the model how we physically wire the nodes, but this means the ordering
+      // of the petal is "weird". We wire the lower petal [11:0], but we want to represent the petal as one contiguous
+      // fixture from module [0:19]. As such, we must reverse the order of the lower petal to add the points starting
+      // from Module 0
+      for (int lowerItr = lowerPetal.getPoints().size() - 1; lowerItr >= 0; lowerItr--){
+        addPoint(lowerPetal.getPoints().get(lowerItr));
       }
 
       for (LXPoint p : upperPetal.getPoints()){
-        fixture.addPoint(p);
+        addPoint(p);
       }
-    }
-  }
-
-  private static class Fixture extends LXAbstractFixture {
-    Fixture(LowerPetal lowerPetal, UpperPetal upperPetal){
-      new LoadPetalChunks(this, lowerPetal, upperPetal);
-    }
-    Fixture(LXTransform transform) {
-      LowerPetal lowerPetal = new LowerPetal(transform);
-      UpperPetal upperPetal = new UpperPetal(transform);
-
-      new LoadPetalChunks(this, lowerPetal, upperPetal);
     }
   }
 }
