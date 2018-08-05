@@ -19,14 +19,15 @@ public class Lava extends TemplePattern {
 
   private static final int DROPS_PER_PETAL = 10;
 
-  public final CompoundParameter speed = new CompoundParameter("Speed", 2, 0, 4)
-          .setDescription("Initial velocity of raindrops");
+  public final CompoundParameter speed =
+      new CompoundParameter("Speed", 2, 0, 4).setDescription("Initial velocity of raindrops");
 
-  public final CompoundParameter gravity = new CompoundParameter("Gravity", 2, 0, 4)
+  public final CompoundParameter gravity =
+      new CompoundParameter("Gravity", 2, 0, 4)
           .setDescription("Strength of gravity acting on raindrops");
 
-  public final CompoundParameter size = new CompoundParameter("Size", 10, 4, 20)
-          .setDescription("Size of the raindrops");
+  public final CompoundParameter size =
+      new CompoundParameter("Size", 10, 4, 20).setDescription("Size of the raindrops");
 
   public Lava(LX lx) {
     super(lx);
