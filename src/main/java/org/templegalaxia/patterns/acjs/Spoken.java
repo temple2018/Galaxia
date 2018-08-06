@@ -82,18 +82,15 @@ public class Spoken extends TemplePattern {
     void loadNames() {
         Path dataPath = Paths.get(NAME_DATA);
 
-        try {
-            if (Files.exists(dataPath) && Files.isRegularFile(dataPath)) {
-                Stream<String> nameLines = Files.lines(dataPath);
+        if (Files.exists(dataPath) && Files.isRegularFile(dataPath)) {
+            try (Stream<String> nameLines = Files.lines(dataPath)) {
                 nameLines.forEach(s -> names.add(s));
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                // Backup / default
+                names.add("Larry Harvey");
             }
-
-            System.out.println("Successfully loaded names");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            // Backup / default
-            names.add("Larry Harvey");
         }
 
         Collections.shuffle(names);
