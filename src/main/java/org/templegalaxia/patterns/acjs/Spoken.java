@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 
 /*
  * “Do you not know that a man is not dead while his name is still spoken?”
- *         -- Terry Spoken, Going Postal
+ *         -- Terry Pratchett, Going Postal
  */
 
 @LXCategory("Acjs")
