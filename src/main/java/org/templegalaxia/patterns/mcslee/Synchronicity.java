@@ -17,15 +17,15 @@ import org.templegalaxia.patterns.TemplePattern;
 @LXCategory("Slee")
 public class Synchronicity extends TemplePattern {
 
-  public final CompoundParameter period = (CompoundParameter)
+  public final CompoundParameter period =
+      (CompoundParameter)
           new CompoundParameter("Period", 60000, 30000, 240000)
-                  .setUnits(LXParameter.Units.MILLISECONDS)
-                  .setDescription("Period of total oscillation cycle");
+              .setUnits(LXParameter.Units.MILLISECONDS)
+              .setDescription("Period of total oscillation cycle");
 
-
-  public final CompoundParameter width = (CompoundParameter)
-          new CompoundParameter("Width", 20, 10, 70)
-                  .setDescription("Width of the strands");
+  public final CompoundParameter width =
+      (CompoundParameter)
+          new CompoundParameter("Width", 20, 10, 70).setDescription("Width of the strands");
 
   private final LXModulator basis = startModulator(new SinLFO(0, 1, period));
 
@@ -51,7 +51,7 @@ public class Synchronicity extends TemplePattern {
       double pos = (.5f + .5f * Math.sin(pb * LX.TWO_PI)) * petal.size;
       int i = 0;
       for (LXPoint p : petal.points) {
-        double b = Math.max(0, 100 - falloff*Math.abs(i - pos));
+        double b = Math.max(0, 100 - falloff * Math.abs(i - pos));
         colors[p.index] = LXColor.gray(b);
         ++i;
       }
