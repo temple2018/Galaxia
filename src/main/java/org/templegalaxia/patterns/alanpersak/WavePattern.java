@@ -166,7 +166,7 @@ public class WavePattern extends TemplePattern {
                 double brightness;
                 if (radius > position - fadeDistance) {
                     // Pixel is between peak and fade distance. Fade it in with linear interpolation.
-                    brightness = (int)linearInterpolate(position - radius, 0, oldBrightness, fadeDistance, intensity);
+                    brightness = (int)Util.linearInterpolate(position - radius, 0, oldBrightness, fadeDistance, intensity);
                     brightness = Math.min(brightness, 100);
 
                 } else {
@@ -174,15 +174,15 @@ public class WavePattern extends TemplePattern {
                     brightness = (int) (intensity * Math.pow(2, (radius - position + fadeDistance) / decay));
                     brightness = Math.max(brightness, baseBrightness);
                     brightness = Math.min(brightness, 100);
-                    // TODO: maybe exponential decay should instead be offset by base brightness.
+                    // TODO: maybe exponential decay should be offset by base brightness.
                 }
                 if (isAngleInRange(angle, maxAngle - fadeAngle, maxAngle)){
                     // Pixel is within upper fade angle. Fade it in.
-                    brightness = (int)linearInterpolate(maxAngle - angle, 0, oldBrightness, fadeAngle, brightness);
+                    brightness = (int)Util.linearInterpolate(maxAngle - angle, 0, oldBrightness, fadeAngle, brightness);
                 }
                 if (isAngleInRange(angle, minAngle, minAngle + fadeAngle)){
                     // Pixel is within lower fade angle. Fade it in.
-                    brightness = (int)linearInterpolate(angle - minAngle, 0, oldBrightness, fadeAngle, brightness);
+                    brightness = (int)Util.linearInterpolate(angle - minAngle, 0, oldBrightness, fadeAngle, brightness);
                 }
                 colors[model.points[i].index] = LXColor.hsb(0, 0, brightness);
             }
@@ -190,7 +190,8 @@ public class WavePattern extends TemplePattern {
 
         // Returns whether to remove the wave from the simulation.
         public boolean done() {
-            // TODO: it might be better to compute whether the dimmest pixel is within some tolerance of the base brightness, but this seems safer for now.
+            // TODO: it might be better to compute whether the least bright pixel is within a threshold of the base
+            // brightness, but that could risk allowing too many waves to slow down the animation.
             return position > MAX_POSITION;
         }
     }
@@ -223,10 +224,5 @@ public class WavePattern extends TemplePattern {
     // Returns a random double between min and max with specified steps of precision.
     private static double randomDouble(Random r, double min, double max, int precision){
         return r.nextInt(precision) * (max - min) / precision + min;
-    }
-
-    // Returns a linearly interpolated y value given an x value and two points on a line.
-    private static double linearInterpolate(double x, double x0, double y0, double x1, double y1){
-        return (y0*(x1-x)+y1*(x-x0))/(x1-x0);
     }
 }
