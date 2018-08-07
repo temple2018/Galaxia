@@ -21,6 +21,13 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.templegalaxia.patterns.TemplePattern;
 
+import heronarts.lx.studio.LXStudio;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+import org.templegalaxia.patterns.TemplePattern;
+import processing.core.PApplet;
+
 /*
  * “Do you not know that a man is not dead while his name is still spoken?”
  *         -- Terry Pratchett, Going Postal
@@ -28,7 +35,7 @@ import org.templegalaxia.patterns.TemplePattern;
 
 @LXCategory("Acjs")
 public class Spoken extends TemplePattern {
-  private static final String NAME_DATA = "/Users/anton/Projects/Galaxia/Galaxia/assets/names.txt";
+  private static final String NAME_DATA = "assets/Spoken.txt";
   private static final int DASH_MULTIPLIER = 3;
 
   public final CompoundParameter density =
@@ -60,6 +67,7 @@ public class Spoken extends TemplePattern {
 
   public Spoken(LX lx) {
     super(lx);
+
     addParameter(density);
     addParameter(birthRate);
     addParameter(dot);
@@ -89,17 +97,16 @@ public class Spoken extends TemplePattern {
   }
 
   void loadNames() {
-    Path dataPath = Paths.get(NAME_DATA);
+    // Load names using Processing's mechanism to do so
+    // Not super happy with the cast but I can't find a better way to get access to
+    // the PApplet and we can't access the method statically.
+    String[] newNames = ((LXStudio)lx).applet.loadStrings(NAME_DATA);
 
-    if (Files.exists(dataPath) && Files.isRegularFile(dataPath)) {
-      try (Stream<String> nameLines = Files.lines(dataPath)) {
-        nameLines.forEach(names::add);
-      } catch (IOException e) {
-        e.printStackTrace();
-      } finally {
-        // Backup / default
-        names.add("Larry Harvey");
-      }
+    if (null == newNames) {
+      // We failed to load our name data
+      names.add("Larry Harvey");
+    } else {
+      names.addAll(Arrays.asList(newNames));
     }
 
     Collections.shuffle(names);
