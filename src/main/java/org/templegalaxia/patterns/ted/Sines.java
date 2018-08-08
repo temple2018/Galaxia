@@ -13,7 +13,7 @@ import org.templegalaxia.patterns.TemplePattern;
 @LXCategory("Tedward")
 public class Sines extends TemplePattern {
   BoundedParameter speedParam =
-      new BoundedParameter("speed", 10000, 90000, 1000)
+      new BoundedParameter("speed", 45000, 90000, 1000)
           .setDescription("Period of the base oscillator.");
   BoundedParameter freqParam =
       new BoundedParameter("frequency", 2, 0.1, 10).setDescription("Number of cycles per ring.");
@@ -41,7 +41,7 @@ public class Sines extends TemplePattern {
       int j = 0;
       for (LXPoint point : ring.getPoints()) {
         double angle = 2 * Math.PI / ring.getPoints().size() * j;
-        double value = Math.sin(time.getValue() + freqParam.getValue() * angle + phase);
+        double value = Math.sin(time.getValue() + freqParam.getValue() * angle + phase) + 0.5;
         value = 100 * Math.abs(value); // normalize
         value *= brightnessParam.getValue(); // attenuate
         colors[model.getPixelIndex(point)] = LXColor.hsb(0, 0, value);
