@@ -37,7 +37,6 @@ public class Temple extends LXModel {
     private static PointLoader lowerPetalLoader = new PointLoader("lowerPetalPoints.csv");
     private static PointLoader upperPetalLoader = new PointLoader("upperPetalPoints.csv");
 
-    /** @param applet */
     Fixture(PApplet applet) {
       LXTransform transform = new LXTransform();
 
@@ -52,6 +51,8 @@ public class Temple extends LXModel {
         Petal petal = new Petal(lowerPetal, upperPetal);
         addPoints(petal);
         this.petals.add(petal);
+
+        this.spokes.add(new Spoke(petal, groundArc));
 
         transform.rotateY(ANGLE_BETWEEN_PETALS);
       }

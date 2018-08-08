@@ -7,12 +7,12 @@ import heronarts.lx.model.LXPoint;
 public class Spoke extends LXModel {
   public static int numPixels;
 
-  public Spoke(Petal petal, GroundArc groundArc) {
+  public Spoke(Petal petal, RotatableFixture groundArc) {
     super(new Fixture(petal, groundArc));
   }
 
   private static class Fixture extends LXAbstractFixture {
-    Fixture(Petal petal, GroundArc groundArc) {
+    Fixture(Petal petal, RotatableFixture groundArc) {
       numPixels = petal.getPoints().size() + groundArc.getPoints().size();
 
       for (int groundItr = groundArc.getPoints().size() - 1; groundItr >= 0; groundItr--) {
