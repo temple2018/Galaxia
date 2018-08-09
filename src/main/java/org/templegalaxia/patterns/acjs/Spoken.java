@@ -139,6 +139,7 @@ public class Spoken extends TemplePattern {
       MorsePulser pulse = iterator.next();
       if (pulse.isFinished()) {
         availableLights.add(pulse.getLightIndex());
+        removeLayer(pulse);
         iterator.remove();
       }
     }
