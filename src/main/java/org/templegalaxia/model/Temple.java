@@ -40,14 +40,6 @@ public class Temple extends LXModel {
         if (pixelsPerPetal == -1) pixelsPerPetal = petal.size;
       }
 
-      // Reindex points into rings of the same height.
-      for (int i = 0; i < pixelsPerPetal; i++) {
-        for (int j = 0; j < petals.size(); j++) {
-          Petal petal = petals.get(j);
-          LXPoint point = petal.getPoints().get(i);
-        }
-      }
-
       for (int pointItr = 0; pointItr < Petal.numPixels; ++pointItr) {
         List<LXPoint> points = new ArrayList<>();
 
