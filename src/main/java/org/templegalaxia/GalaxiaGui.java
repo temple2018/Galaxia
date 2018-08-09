@@ -11,6 +11,7 @@ import org.templegalaxia.patterns.ping.Swirl;
 import org.templegalaxia.patterns.ted.RingTest;
 import org.templegalaxia.patterns.ted.Sines;
 import org.templegalaxia.patterns.testing.*;
+import org.templegalaxia.patterns.cbarnes.*;
 import processing.core.PApplet;
 
 public class GalaxiaGui extends PApplet {
@@ -66,6 +67,7 @@ public class GalaxiaGui extends PApplet {
     lx.registerPattern(Synchronicity.class);
     lx.registerPattern(Clouds.class);
     lx.registerPattern(Lava.class);
+    lx.registerPattern(RingFall.class);
   }
 
   public void onUIReady(LXStudio lx, LXStudio.UI ui) {
