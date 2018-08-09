@@ -58,10 +58,10 @@ public class Spoken extends TemplePattern {
               .setUnits(LXParameter.Units.MILLISECONDS)
               .setDescription("How variable dot length will be between names.");
 
-  private final HashMap<Character, String> morseLookup = new HashMap<>();
-  private final List<String> names = new ArrayList<>();
-  private final List<MorsePulser> pulsers = new ArrayList<>();
-  private final List<Integer> availableLights = new ArrayList<>();
+  private final HashMap<Character, String> morseLookup = new HashMap<Character, String>();
+  private final List<String> names = new ArrayList<String>();
+  private final List<MorsePulser> pulsers = new ArrayList<MorsePulser>();
+  private final List<Integer> availableLights = new ArrayList<Integer>();
 
   private final Random rand = new Random();
 
@@ -114,10 +114,9 @@ public class Spoken extends TemplePattern {
 
   public void newPulser(String message) {
     double dotLength = dot.getValue();
-    dotLength += (Math.random() - 0.5) * dotVariance.getValue();
+    dotLength += (rand.nextDouble() - 0.5) * dotVariance.getValue();
 
-    Collections.shuffle(availableLights);
-    int light = availableLights.remove(0);
+    int light = availableLights.remove(rand.nextInt(availableLights.size()));
 
     MorsePulser pulser = new MorsePulser(lx, light, message, dotLength);
     pulsers.add(pulser);
