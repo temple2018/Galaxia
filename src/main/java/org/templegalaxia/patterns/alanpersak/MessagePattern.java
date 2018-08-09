@@ -23,7 +23,7 @@ public class MessagePattern extends TemplePattern {
     //private BoundedParameter topParam = new BoundedParameter("Top", .2, .1, 10).setDescription("Size of the top of each bit in the waveform. At zero, the shape is a triangle. At size, it is a square wave. In between, a trapezoid.");
     private BoundedParameter restParam = new BoundedParameter("Rest", 10, 0, 60).setDescription("Period between message transmission.");
     private BoundedParameter minParam = new BoundedParameter("Min", 0, 0, 100).setDescription("Brightness of a zero.");
-    private BoundedParameter maxParam = new BoundedParameter("Max", 0, 0, 100).setDescription("Brightness of a one.");
+    private BoundedParameter maxParam = new BoundedParameter("Max", 100, 0, 100).setDescription("Brightness of a one.");
 
     private double rate;
     private double size;
@@ -122,7 +122,7 @@ public class MessagePattern extends TemplePattern {
             for (int pixelIndex = 0; pixelIndex < numPixels; pixelIndex++) {
                 double position = time * rate - pixelIndex / size;
                 double bitValue = interpolateBit(bits, position, size);
-                double brightness = minBrightness + bitValue * maxBrightness;
+                double brightness = minBrightness + bitValue * (maxBrightness - minBrightness);
                 int pointIndex = petalIndexToPointIndex(pixelIndex, petalIndex);
                 colors[pointIndex] = LXColor.hsb(0, 0, brightness);
             }

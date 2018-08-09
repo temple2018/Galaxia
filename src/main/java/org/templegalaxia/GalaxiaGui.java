@@ -60,8 +60,6 @@ public class GalaxiaGui extends PApplet {
     lx.registerPattern(MessagePattern.class);
     lx.registerPattern(StarPattern.class);
     lx.registerPattern(WavePattern.class);
-    lx.registerPattern(DebugPattern.class);
-    lx.registerPattern(TestPattern.class);
   }
 
   public void draw() {

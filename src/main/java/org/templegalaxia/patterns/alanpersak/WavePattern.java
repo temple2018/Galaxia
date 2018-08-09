@@ -4,18 +4,13 @@ import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
 
 import java.util.*;
-import java.util.stream.IntStream;
-import org.templegalaxia.model.Petal;
 import org.templegalaxia.patterns.TemplePattern;
-import processing.core.PApplet;
 
 @LXCategory("Alan Persak")
 public class WavePattern extends TemplePattern {
-
     private static final double TAU = 2 * Math.PI;
     private static double MIN_POSITION = 0; // Initial wave radius. Minimum pixel radius is 3508.
     private static final double MAX_POSITION = 100000; // Maximum wave radius before it is removed from the simulation. Maximum pixel radius is 28769.
@@ -28,7 +23,7 @@ public class WavePattern extends TemplePattern {
     private BoundedParameter waveBrightnessParam = new BoundedParameter("Wave Brightness", 100, 0, 200).setDescription("The brightness at the peak of the wave front. Going above 100 will create a flat top where the brightness is saturated.");
     private BoundedParameter waveSpeedParam = new BoundedParameter("Wave Speed", 500, 100, 10000).setDescription("The rate at which the wave arc radius expands.");
     private BoundedParameter minWaveAngleParam = new BoundedParameter("Minimum Wave Angle", 1, 0, TAU).setDescription("The minimum angle of the randomized wave size.");
-    private BoundedParameter maxWaveAngleParam = new BoundedParameter("Maximum Wave Angle", 1, 0, TAU).setDescription("The maximum angle of the randomized wave size.");
+    private BoundedParameter maxWaveAngleParam = new BoundedParameter("Maximum Wave Angle", 3, 0, TAU).setDescription("The maximum angle of the randomized wave size.");
     private BoundedParameter minWaveTimeParam = new BoundedParameter("Minimum Wave Period", 20, 1, 300).setDescription("The minimum time of the randomized period between waves, in seconds.");
     private BoundedParameter maxWaveTimeParam = new BoundedParameter("Maximum Wave Period", 30, 1, 300).setDescription("The maximum time of the randomized period between waves, in seconds.");
     private BoundedParameter offsetParam = new BoundedParameter("Direction Offset", Math.PI/2, 0, Math.PI).setDescription("The minimum angle between successive wave directions, which allows for a more balanced distribution.");
@@ -40,6 +35,8 @@ public class WavePattern extends TemplePattern {
     private double[] radii; // Radii of each point from the origin.
     private double waveTimer; // Timer which counts up to next wave.
     private double nextWaveTime = 0; // Time of next wave.
+    private double waveSpeed = 0; // Rate of increase of a wave's radius.
+    private double waveBrightness = 0; // Maximum brightness at a wave's peak.
     private double lastWaveDirection = 0; // Direction of last wave, used to offset the directions of successive waves.
     double statTimer = 0; // Timer which counts for printing stats.
     int frameCounter = 0; // Number of animation frames.
@@ -72,6 +69,8 @@ public class WavePattern extends TemplePattern {
     }
 
     public void run(double deltaMs) {
+        waveSpeed = waveSpeedParam.getValue();
+        waveBrightness = waveBrightnessParam.getValue();
 
         // Print stats every 10 real seconds.
         frameCounter++;
@@ -103,10 +102,8 @@ public class WavePattern extends TemplePattern {
             lastWaveDirection = direction;
 
             double size = randomDouble(random, minWaveAngleParam.getValue(), maxWaveAngleParam.getValue(), 1000);
-            double speed = waveSpeedParam.getValue();
-            double intensity = waveBrightnessParam.getValue();
 
-            waves.add(new Wave(direction, size, speed, intensity));
+            waves.add(new Wave(direction, size));
 
             System.out.println("\nnew wave: " + direction + " " + size);
             System.out.println("next wave time: " + nextWaveTime);
@@ -128,28 +125,22 @@ public class WavePattern extends TemplePattern {
     }
 
     private class Wave {
-
         double minAngle;  // Minimum wave angle. Equal to direction - size/2.
         double maxAngle;  // Maximum wave angle. Equal to direction + size/2.
-        double speed;     // Rate that the wave's arc radius expands.
-        double intensity; // Maximum brightness at the leading edge of the wave.
         double position = MIN_POSITION;  // Current arc radius.
 
-        public Wave(double direction, double size, double speed, double intensity) {
+        public Wave(double direction, double size) {
             this.minAngle = clampAngle(direction - size/2);
             this.maxAngle = clampAngle(direction + size/2);
-            this.speed = speed;
-            this.intensity = intensity;
         }
 
         public void run(double deltaMs) {
-
             double fadeDistance = fadeDistanceParam.getValue();
             double fadeAngle = fadeAngleParam.getValue();
             double decay = decayParam.getValue();
             double baseBrightness = baseBrightnessParam.getValue();
 
-            position += speed * deltaMs / 1000;
+            position += waveSpeed * deltaMs / 1000;
 
             for (int i=0; i<numPoints; i++){
                 double angle = angles[i];
@@ -166,12 +157,12 @@ public class WavePattern extends TemplePattern {
                 double brightness;
                 if (radius > position - fadeDistance) {
                     // Pixel is between peak and fade distance. Fade it in with linear interpolation.
-                    brightness = (int)Util.linearInterpolate(position - radius, 0, oldBrightness, fadeDistance, intensity);
+                    brightness = (int)Util.linearInterpolate(position - radius, 0, oldBrightness, fadeDistance, waveBrightness);
                     brightness = Math.min(brightness, 100);
 
                 } else {
                     // Pixel is within the wave peak. Brightness decays exponentially with distance from peak.
-                    brightness = (int) (intensity * Math.pow(2, (radius - position + fadeDistance) / decay));
+                    brightness = (int) (waveBrightness * Math.pow(2, (radius - position + fadeDistance) / decay));
                     brightness = Math.max(brightness, baseBrightness);
                     brightness = Math.min(brightness, 100);
                     // TODO: maybe exponential decay should be offset by base brightness.
