@@ -8,25 +8,14 @@ import heronarts.lx.modulator.LXPeriodicModulator;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.LXParameter;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Stream;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
-import org.templegalaxia.patterns.TemplePattern;
-
 import heronarts.lx.studio.LXStudio;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.*;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.templegalaxia.patterns.TemplePattern;
-import processing.core.PApplet;
 
 /*
  * “Do you not know that a man is not dead while his name is still spoken?”
@@ -100,7 +89,7 @@ public class Spoken extends TemplePattern {
     // Load names using Processing's mechanism to do so
     // Not super happy with the cast but I can't find a better way to get access to
     // the PApplet and we can't access the method statically.
-    String[] newNames = ((LXStudio)lx).applet.loadStrings(NAME_DATA);
+    String[] newNames = ((LXStudio) lx).applet.loadStrings(NAME_DATA);
 
     if (null == newNames) {
       // We failed to load our name data
