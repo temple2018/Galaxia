@@ -18,7 +18,7 @@ import org.templegalaxia.patterns.TemplePattern;
 public class StarPattern extends TemplePattern {
 
     private BoundedParameter timeScaleParam = new BoundedParameter("Time Scale", 1, .1, 20).setDescription("Scales the speed of animation.");
-    private BoundedParameter rateParam = new BoundedParameter("Rate", 6, 1, 20).setDescription("The probability of a star being created. A rate of 10 means on average 10 stars per second when no stars are present. The actual rate will be less since stars cannot overlap.");
+    private BoundedParameter rateParam = new BoundedParameter("Rate", 6, 1, 50).setDescription("The probability of a star being created. A rate of 10 means on average 10 stars per second when no stars are present. The actual rate will be less since stars cannot overlap.");
     private BoundedParameter minSizeParam = new BoundedParameter("Minimum Size", 1, 1, 10).setDescription("The minimum size of a star in pixels.");
     private BoundedParameter maxSizeParam = new BoundedParameter("Maximum Size", 3, 1, 10).setDescription("The maximum size of a star in pixels.");
     private BoundedParameter minBrightnessParam = new BoundedParameter("Minimum Brightness", 40, 0, 100);
