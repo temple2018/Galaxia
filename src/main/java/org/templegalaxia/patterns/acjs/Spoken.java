@@ -182,7 +182,7 @@ public class Spoken extends TemplePattern {
       addModulator(dotModulator);
       addModulator(dashModulator);
 
-      currentModulator().start();
+      currentModulator().trigger();
     }
 
     LXPeriodicModulator currentModulator() {
@@ -202,7 +202,7 @@ public class Spoken extends TemplePattern {
           return;
         }
 
-        currentModulator().start();
+        currentModulator().trigger();
       }
 
       if (morsePattern.charAt(currentCharacter) == ' ') {
