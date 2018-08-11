@@ -14,14 +14,14 @@ public abstract class TemplePattern extends LXPattern {
   }
 
   public int pointIndexToPetalIndex(int pointIndex) {
-    return pointIndex % Petal.NUM_PIXELS;
+    return pointIndex % Petal.numPixels;
   }
 
   public int pointIndexToPetalNumber(int pointIndex) {
-    return pointIndex / Petal.NUM_PIXELS;
+    return pointIndex / Petal.numPixels;
   }
 
-  public int petalIndexToPointIndex(int petalIndex, int petalNumber) {
-    return (petalNumber * Petal.NUM_PIXELS) + petalIndex;
+  public static int petalIndexToPointIndex(int petalIndex, int petalNumber) {
+    return (petalNumber * Petal.numPixels) + petalIndex;
   }
 }

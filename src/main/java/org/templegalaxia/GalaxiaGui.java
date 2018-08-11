@@ -1,16 +1,16 @@
 package org.templegalaxia;
 
 import heronarts.lx.model.LXModel;
-import heronarts.lx.output.LXDatagramOutput;
 import heronarts.lx.studio.LXStudio;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import org.templegalaxia.datagrams.MultiplexedArtNet;
+import org.templegalaxia.configuration.Outputs;
 import org.templegalaxia.model.Temple;
 import org.templegalaxia.patterns.gerald.*;
 import org.templegalaxia.patterns.matty.*;
 import org.templegalaxia.patterns.pandores.*;
+import org.templegalaxia.patterns.mcslee.*;
 import org.templegalaxia.patterns.ping.Swirl;
+import org.templegalaxia.patterns.ted.RingTest;
+import org.templegalaxia.patterns.ted.Sines;
 import org.templegalaxia.patterns.testing.*;
 import processing.core.PApplet;
 
@@ -19,8 +19,11 @@ public class GalaxiaGui extends PApplet {
   private static final boolean MULTITHREADED = true;
   private static final boolean RESIZEABLE = true;
 
+  LXModel model;
+  LXStudio lx;
+
   public static void main(String args[]) {
-    PApplet.main(new String[] {"--present", GalaxiaGui.class.getName()});
+    PApplet.main(new String[] {GalaxiaGui.class.getName()});
   }
 
   public void settings() {
@@ -28,31 +31,23 @@ public class GalaxiaGui extends PApplet {
   }
 
   public void setup() {
-    startupInfo();
-
     // Load model
     LXModel model = new Temple(this);
 
     // Initialize LX
-    LXStudio lx = new LXStudio(this, model, MULTITHREADED);
+    lx = new LXStudio(this, model, MULTITHREADED);
 
     // Configure UI
     lx.ui.setResizable(RESIZEABLE);
-    lx.ui.preview.pointCloud.setPointSize(20);
 
-    // Setup the output
-    LXDatagramOutput output;
-    MultiplexedArtNet datagram;
-
-    try {
-      output = new LXDatagramOutput(lx);
-      datagram = MultiplexedArtNet.fromFixture(model, 0);
-      datagram.setAddress("192.168.0.50");
-      output.addDatagram(datagram);
-      lx.addOutput(output);
-    } catch (UnknownHostException | SocketException e) {
-      throw new RuntimeException(e);
+    // Open the default project if none is saved
+    if (lx.getProject() == null) {
+      System.out.println("Loading the Default project");
+      lx.openProject(this.saveFile("projects/Default.lxp"));
     }
+
+    // Build outputs
+    Outputs outputs = new Outputs(lx, model);
   }
 
   // NOTE(meawoppl) this wants to be a classpath scan for annotations.
@@ -69,13 +64,19 @@ public class GalaxiaGui extends PApplet {
     lx.registerPattern(Sparkle.class);
     lx.registerPattern(DebugOrder.class);
     lx.registerPattern(Swirl.class);
+    lx.registerPattern(RingTest.class);
+    lx.registerPattern(Sines.class);
+    lx.registerPattern(Crawlers.class);
+    lx.registerPattern(Synchronicity.class);
+    lx.registerPattern(Clouds.class);
+    lx.registerPattern(Lava.class);
+  }
+
+  public void onUIReady(LXStudio lx, LXStudio.UI ui) {
+    lx.ui.preview.pointCloud.setPointSize(20);
   }
 
   public void draw() {
     // Handled by LXStudio
-  }
-
-  private void startupInfo() {
-    PApplet.println("Running sketch from ", sketchPath());
   }
 }
