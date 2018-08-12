@@ -26,6 +26,7 @@ import org.templegalaxia.patterns.TemplePattern;
 public class Spoken extends TemplePattern {
   private static final String NAME_DATA = "assets/Spoken.txt";
   private static final int DASH_MULTIPLIER = 3;
+  private static final int NAME_RELOAD_INTERVAL = 10 * 60 * 1000; // Ten minutes
 
   public final CompoundParameter density =
       new CompoundParameter("Lights", 1.0, 0, colors.length)
@@ -54,6 +55,9 @@ public class Spoken extends TemplePattern {
 
   private final Random rand = new Random();
 
+  private long nameLastLoadTime = 0;
+  private String[] allNames = new String[0];
+
   public Spoken(LX lx) {
     super(lx);
 
@@ -63,6 +67,10 @@ public class Spoken extends TemplePattern {
     addParameter(dotVariance);
 
     loadMorse();
+
+    // So we have some data for names regardless.
+    allNames = new String[1];
+    allNames[0] = "Larry Harvey";
 
     for (int i = 0; i < colors.length; i++) availableLights.add(i);
   }
@@ -85,19 +93,25 @@ public class Spoken extends TemplePattern {
     }
   }
 
-  void loadNames() {
-    // Load names using Processing's mechanism to do so
-    // Not super happy with the cast but I can't find a better way to get access to
-    // the PApplet and we can't access the method statically.
-    String[] newNames = ((LXStudio) lx).applet.loadStrings(NAME_DATA);
+  void updateNames() {
+    // Only reload after a set interval has passed, otherwise use the last-loaded name set.
+    if (nameLastLoadTime + NAME_RELOAD_INTERVAL < System.currentTimeMillis()) {
+      // Load names using Processing's mechanism to do so
+      // Not super happy with the cast but I can't find a better way to get access to
+      // the PApplet and we can't access the method statically.
+      String[] newNames = ((LXStudio) lx).applet.loadStrings(NAME_DATA);
 
-    if (null == newNames) {
-      // We failed to load our name data
-      names.add("Larry Harvey");
-    } else {
-      names.addAll(Arrays.asList(newNames));
+      if (null != newNames && newNames.length > 0) {
+        allNames = newNames;
+      }
+
+      System.out.println("Reloaded");
+      for (int i = 0; i < allNames.length; i++) System.out.println(allNames[i]);
+
+      nameLastLoadTime = System.currentTimeMillis();
     }
 
+    names.addAll(Arrays.asList(allNames));
     Collections.shuffle(names);
   }
 
@@ -115,7 +129,7 @@ public class Spoken extends TemplePattern {
   public void run(double deltaMs) {
     // Give each unlit 'slot' a chance to be born.
     for (int i = 0; i < (int) density.getValue() - pulsers.size(); i++) {
-      if (names.size() == 0) loadNames(); // Reload names if we're out. XXX: Performance?
+      if (names.size() == 0) updateNames();
 
       if (rand.nextDouble() < birthRate.getValue() * deltaMs / 1000) {
         newPulser(names.remove(0));
