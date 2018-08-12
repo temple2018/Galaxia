@@ -10,6 +10,7 @@ import org.templegalaxia.patterns.matty.*;
 import org.templegalaxia.patterns.mcslee.*;
 import org.templegalaxia.patterns.ping.Swirl;
 import org.templegalaxia.patterns.ted.RingTest;
+import org.templegalaxia.patterns.ted.Sines;
 import org.templegalaxia.patterns.testing.*;
 import processing.core.PApplet;
 
@@ -61,6 +62,7 @@ public class GalaxiaGui extends PApplet {
     lx.registerPattern(DebugOrder.class);
     lx.registerPattern(Swirl.class);
     lx.registerPattern(RingTest.class);
+    lx.registerPattern(Sines.class);
     lx.registerPattern(Crawlers.class);
     lx.registerPattern(Synchronicity.class);
     lx.registerPattern(Clouds.class);
