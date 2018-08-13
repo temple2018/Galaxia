@@ -15,10 +15,10 @@ public class RingFall extends TemplePattern {
       new BoundedParameter("Y-speed", 40000, 60000, 20000)
           .setDescription("The speed of the up and down movement of the ring");
   BoundedParameter rot_speed =
-      new BoundedParameter("Rot-vel", 30000, 40000, 20000)
+      new BoundedParameter("Rot-vel", 40000, 60000, 20000)
           .setDescription("The speed that the ring moves around the center");
   BoundedParameter ang_speed =
-      new BoundedParameter("Ang-vel", 30000, 40000, 20000)
+      new BoundedParameter("Ang-vel", 40000, 60000, 20000)
           .setDescription("How fast the tilt of the ring changes");
 
   SinLFO saw = new SinLFO(model.yMin - model.yRange / 2, model.yMax + model.yRange / 2, y_speed);
