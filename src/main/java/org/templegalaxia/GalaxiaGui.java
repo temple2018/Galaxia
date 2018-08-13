@@ -57,6 +57,7 @@ public class GalaxiaGui extends PApplet {
     lx.registerPattern(MoveYPosition.class);
     lx.registerPattern(MoveZPosition.class);
     lx.registerPattern(PetalIterator.class);
+    lx.registerPattern(RingIterator.class);
     lx.registerPattern(Teleport.class);
     lx.registerPattern(PetalChase.class);
     lx.registerPattern(Drahciug.class);
@@ -67,6 +68,7 @@ public class GalaxiaGui extends PApplet {
     lx.registerPattern(Swirl.class);
     lx.registerPattern(RingTest.class);
     lx.registerPattern(Sines.class);
+
     lx.registerPattern(Crawlers.class);
     lx.registerPattern(Synchronicity.class);
     lx.registerPattern(Clouds.class);
