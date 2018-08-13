@@ -4,6 +4,7 @@ import heronarts.lx.model.LXModel;
 import heronarts.lx.studio.LXStudio;
 import org.templegalaxia.configuration.Outputs;
 import org.templegalaxia.model.Temple;
+import org.templegalaxia.patterns.cbarnes.*;
 import org.templegalaxia.patterns.gerald.*;
 import org.templegalaxia.patterns.matty.*;
 import org.templegalaxia.patterns.mcslee.*;
@@ -66,6 +67,7 @@ public class GalaxiaGui extends PApplet {
     lx.registerPattern(Synchronicity.class);
     lx.registerPattern(Clouds.class);
     lx.registerPattern(Lava.class);
+    lx.registerPattern(RingFall.class);
   }
 
   public void onUIReady(LXStudio lx, LXStudio.UI ui) {
