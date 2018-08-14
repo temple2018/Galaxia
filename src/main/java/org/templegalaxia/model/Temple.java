@@ -17,9 +17,9 @@ public class Temple extends LXModel {
   public final List<Spoke> spokes;
 
   public Temple(PApplet applet) {
-    super(new Fixture(applet));
+    super(new TempleFixture(applet));
 
-    Fixture f = (Fixture) this.fixtures.get(0);
+    TempleFixture f = (TempleFixture) this.fixtures.get(0);
 
     this.groundArcs = Collections.unmodifiableList(f.groundArcs);
     this.petals = Collections.unmodifiableList(f.petals);
@@ -27,7 +27,7 @@ public class Temple extends LXModel {
     this.spokes = Collections.unmodifiableList(f.spokes);
   }
 
-  private static class Fixture extends LXAbstractFixture {
+  private static class TempleFixture extends LXAbstractFixture {
     private final List<RotatableFixture> groundArcs = new ArrayList<>();
     private final List<Petal> petals = new ArrayList<>();
     private final List<Ring> rings = new ArrayList<>();
@@ -37,7 +37,7 @@ public class Temple extends LXModel {
     private static PointLoader lowerPetalLoader = new PointLoader("lowerPetalPoints.csv");
     private static PointLoader upperPetalLoader = new PointLoader("upperPetalPoints.csv");
 
-    Fixture(PApplet applet) {
+    TempleFixture(PApplet applet) {
       LXTransform transform = new LXTransform();
 
       for (int i = 0; i < NUMBER_OF_PETALS; ++i) {
