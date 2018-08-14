@@ -18,7 +18,7 @@ Java 8, if you don't already have it on your system:
   ```
 - OSX
   ```
-  brew cash install caskroom/versions/java8
+  brew cask install caskroom/versions/java8
   ```
 - Windows
   - Let us know!
