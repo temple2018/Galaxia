@@ -34,7 +34,7 @@ public class GalaxiaGui extends PApplet {
 
   public void setup() {
     // Load model
-    LXModel model = new Temple(this);
+    LXModel model = new Temple();
 
     // Initialize LX
     lx = new LXStudio(this, model, MULTITHREADED);
