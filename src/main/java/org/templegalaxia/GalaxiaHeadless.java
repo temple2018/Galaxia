@@ -1,58 +1,45 @@
 package org.templegalaxia;
 
 import heronarts.lx.LX;
+import heronarts.lx.LXLoopTask;
 import heronarts.lx.model.LXModel;
-import heronarts.lx.studio.LXStudio;
 import org.templegalaxia.configuration.Outputs;
 import org.templegalaxia.model.Temple;
-import processing.core.PApplet;
 
-public class GalaxiaHeadless extends PApplet {
+public class GalaxiaHeadless {
   private long lastHeartBeat = System.currentTimeMillis();
 
   private LXModel model;
   private LX lx;
 
   public static void main(String args[]) {
-    PApplet.main(new String[] {GalaxiaHeadless.class.getName()});
+    new GalaxiaHeadless();
   }
 
-  public void settings() {
-    size(1, 1, P2D);
-  }
-
-  public void setup() {
-    PApplet.println("Starting 'headless' Galaxia");
+  public GalaxiaHeadless() {
+    System.out.println("Starting 'headless' Galaxia");
 
     // Load model
-    LXModel model = new Temple(this);
+    LXModel model = new Temple();
 
     // Initialize LX
     lx = new LX(model);
+    Outputs outputs = new Outputs(lx, model);
+
+    lx.engine.addLoopTask(
+        new LXLoopTask() {
+          @Override
+          public void loop(double v) {
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastHeartBeat > 1000.0) {
+              lastHeartBeat = currentTime;
+              System.out.println(lx.engine.getDefaultChannel().getOscAddress());
+            }
+          }
+        });
 
     // Kick it!
     System.out.println("Starting engine!");
     lx.engine.start();
-  }
-
-  // NOTE(meawoppl) this wants to be a classpath scan for annotations.
-  public void initialize(LXStudio lx, LXStudio.UI ui) {
-    Outputs outputs = new Outputs(lx, model);
-  }
-
-  public void draw() {
-    // Wipe the frame...
-    background(0x000);
-
-    lx.engine.onDraw();
-
-    if (!lx.engine.isThreaded()) {
-      lx.engine.run();
-    }
-    long currentTime = System.currentTimeMillis();
-    if (currentTime - lastHeartBeat > 1000.0) {
-      lastHeartBeat = currentTime;
-      System.out.println(lx.engine.getDefaultChannel().getOscAddress());
-    }
   }
 }

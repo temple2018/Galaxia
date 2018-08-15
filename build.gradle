@@ -1,23 +1,5 @@
-plugins {
-    id "com.diffplug.gradle.spotless" version "3.13.0"
-}
-
 apply plugin: 'application'
 apply plugin: 'java'
-
-
-spotless {
-    // Code formatter and repair tool.
-    // https://github.com/diffplug/spotless/tree/master/plugin-gradle#java
-    java {
-        target 'src/**/*.java'
-        googleJavaFormat('1.6')
-        removeUnusedImports()
-        replaceRegex 'Bug in google format javadoc: https://github.com/google/google-java-format/issues/254', '  \\* (<p>)+', '  * <p>'
-    }
-}
-
-apply plugin: "com.diffplug.gradle.spotless"
 
 dependencies {
     compile fileTree(dir: 'lib', include: ['*.jar'])

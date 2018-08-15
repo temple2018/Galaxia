@@ -16,8 +16,8 @@ public class Temple extends LXModel {
   public final List<Ring> rings;
   public final List<Spoke> spokes;
 
-  public Temple(PApplet applet) {
-    super(new Fixture(applet));
+  public Temple() {
+    super(new Fixture());
 
     Fixture f = (Fixture) this.fixtures.get(0);
 
@@ -37,7 +37,7 @@ public class Temple extends LXModel {
     private static PointLoader lowerPetalLoader = new PointLoader("lowerPetalPoints.csv");
     private static PointLoader upperPetalLoader = new PointLoader("upperPetalPoints.csv");
 
-    Fixture(PApplet applet) {
+    Fixture() {
       LXTransform transform = new LXTransform();
 
       for (int i = 0; i < NUMBER_OF_PETALS; ++i) {
