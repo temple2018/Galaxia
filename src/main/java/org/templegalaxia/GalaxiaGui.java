@@ -4,6 +4,7 @@ import heronarts.lx.model.LXModel;
 import heronarts.lx.studio.LXStudio;
 import org.templegalaxia.configuration.Outputs;
 import org.templegalaxia.model.Temple;
+import org.templegalaxia.patterns.acjs.Spoken;
 import org.templegalaxia.patterns.alanpersak.*;
 import org.templegalaxia.patterns.cbarnes.*;
 import org.templegalaxia.patterns.gerald.*;
@@ -74,6 +75,7 @@ public class GalaxiaGui extends PApplet {
     lx.registerPattern(Synchronicity.class);
     lx.registerPattern(Clouds.class);
     lx.registerPattern(Lava.class);
+    lx.registerPattern(Spoken.class);
     lx.registerPattern(RingFall.class);
 
     // Alan Persak's patterns:
