@@ -6,28 +6,27 @@ import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import org.templegalaxia.patterns.TemplePattern;
 import processing.core.PApplet;
 
 @LXCategory("MattyG")
 public class Teleport extends TemplePattern {
-  BoundedParameter speed = new BoundedParameter("speed", 5000, 10000, 250);
+  public final CompoundParameter speed = new CompoundParameter("Speed", 5000, 20000, 250);
 
-  BoundedParameter bandWidth =
-      new BoundedParameter(
-          "bandwidth",
+  public final CompoundParameter bandWidth =
+      new CompoundParameter(
+          "Bandwidth",
           (model.yMax - model.yMin) / 10,
           (model.yMax - model.yMin) / 100,
           (model.yMax - model.yMin) / 2);
 
-  BoundedParameter acceleration = new BoundedParameter("Accel", 1, 0.5, 5);
 
-  SawLFO saw = new SawLFO(model.yMin, model.yMax, speed);
+  private SawLFO saw = new SawLFO(model.yMin, model.yMax, speed);
 
   public Teleport(LX lx) {
     super(lx);
     addModulator(saw).trigger();
-    addParameter(acceleration);
     addParameter(bandWidth);
     addParameter(speed);
   }
@@ -44,14 +43,10 @@ public class Teleport extends TemplePattern {
             model.yMax + halfBandwidth);
 
     for (LXPoint p : model.points) {
-      boolean aboveMin = (p.y - halfBandwidth) < currentY;
-      boolean belowMax = (p.y + halfBandwidth) > currentY;
-
-      if (aboveMin && belowMax) {
-        colors[p.index] = LXColor.WHITE;
-      } else {
-        colors[p.index] = LXColor.BLACK;
-      }
+      float dist = Math.abs(p.y - currentY);
+      float falloff = 100 / halfBandwidth;
+      float b = Math.max(0, 100 - falloff * dist);
+      colors[p.index] = LXColor.gray(b);
     }
   }
 }
