@@ -6,6 +6,8 @@ import heronarts.lx.model.LXModel;
 import org.templegalaxia.configuration.Outputs;
 import org.templegalaxia.model.Temple;
 
+import java.io.File;
+
 public class GalaxiaHeadless {
   private long lastHeartBeat = System.currentTimeMillis();
 
@@ -24,19 +26,9 @@ public class GalaxiaHeadless {
 
     // Initialize LX
     lx = new LX(model);
+    GalaxiaUtils.registerPatterns(lx);
     Outputs outputs = new Outputs(lx, model);
-
-    lx.engine.addLoopTask(
-        new LXLoopTask() {
-          @Override
-          public void loop(double v) {
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - lastHeartBeat > 1000.0) {
-              lastHeartBeat = currentTime;
-              System.out.println(lx.engine.getDefaultChannel().getOscAddress());
-            }
-          }
-        });
+    lx.openProject(new File("projects/Default.lxp"));
 
     // Kick it!
     System.out.println("Starting engine!");
