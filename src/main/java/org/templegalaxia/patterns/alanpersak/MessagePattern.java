@@ -6,6 +6,8 @@ import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BoundedParameter;
 import java.util.Random;
+
+import heronarts.lx.parameter.CompoundParameter;
 import org.templegalaxia.patterns.TemplePattern;
 
 /**
@@ -17,22 +19,22 @@ import org.templegalaxia.patterns.TemplePattern;
 @LXCategory("Alan Persak")
 public class MessagePattern extends TemplePattern {
 
-  private BoundedParameter rateParam =
-      new BoundedParameter("Rate", .2, .1, 10)
+  private CompoundParameter rateParam =
+      new CompoundParameter("Rate", .2, .1, 10)
           .setDescription("Rate of transmission in bits per second.");
-  private BoundedParameter sizeParam =
-      new BoundedParameter("Size", 2, 1, 10).setDescription("Size of each bit, in pixels.");
+  private CompoundParameter sizeParam =
+      new CompoundParameter("Size", 2, 1, 10).setDescription("Size of each bit, in pixels.");
   // Top is not yet implemented. It might be added later but it seems unnecessary for now.
   // private BoundedParameter topParam = new BoundedParameter("Top", .2, .1,
   // 10).setDescription("Size of the top of each bit in the waveform. At zero, the shape is a
   // triangle. At size, it is a square wave. In between, a trapezoid.");
-  private BoundedParameter restParam =
-      new BoundedParameter("Rest", 10, 0, 60)
+  private CompoundParameter restParam =
+      new CompoundParameter("Rest", 10, 0, 60)
           .setDescription("Period between message transmission.");
   private BoundedParameter minParam =
       new BoundedParameter("Min", 0, 0, 100).setDescription("Brightness of a zero.");
-  private BoundedParameter maxParam =
-      new BoundedParameter("Max", 100, 0, 100).setDescription("Brightness of a one.");
+  private CompoundParameter maxParam =
+      new CompoundParameter("Max", 100, 0, 100).setDescription("Brightness of a one.");
 
   private double rate;
   private double size;
@@ -87,9 +89,7 @@ public class MessagePattern extends TemplePattern {
     maxBrightness = maxParam.getValue();
 
     // Turn everything off
-    for (LXPoint p : model.points) {
-      colors[p.index] = LXColor.hsb(0, 0, minBrightness);
-    }
+    setColors(LXColor.gray(minBrightness));
 
     // Reset done controller and animate all controllers.
     for (int petalIndex = 0; petalIndex < model.petals.size(); petalIndex++) {
