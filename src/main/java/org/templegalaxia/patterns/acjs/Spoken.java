@@ -4,9 +4,11 @@ import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.LXLayer;
 import heronarts.lx.color.LXColor;
+import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.LXPeriodicModulator;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.CompoundParameter;
+import heronarts.lx.parameter.FunctionalParameter;
 import heronarts.lx.parameter.LXParameter;
 import heronarts.lx.studio.LXStudio;
 import java.io.BufferedReader;
@@ -29,7 +31,7 @@ public class Spoken extends TemplePattern {
   private static final int NAME_RELOAD_INTERVAL = 10 * 60 * 1000; // Ten minutes
 
   public final CompoundParameter density =
-      new CompoundParameter("Lights", 1.0, 0, colors.length)
+      new CompoundParameter("Lights", 1.0, 0, model.groundPoints.size())
           .setDescription("Number of lights to use (density).");
 
   public final CompoundParameter birthRate =
@@ -41,6 +43,13 @@ public class Spoken extends TemplePattern {
           new CompoundParameter("Dot speed", 1000, 0, 10000)
               .setUnits(LXParameter.Units.MILLISECONDS)
               .setDescription("Length of a 'dot' in morse code.");
+
+  public final FunctionalParameter dash = new FunctionalParameter("Dash") {
+    @Override
+    public double getValue() {
+      return dot.getValue() * DASH_MULTIPLIER;
+    }
+  };
 
   public final CompoundParameter dotVariance =
       (CompoundParameter)
@@ -72,7 +81,9 @@ public class Spoken extends TemplePattern {
     allNames = new String[1];
     allNames[0] = "Larry Harvey";
 
-    for (int i = 0; i < colors.length; i++) availableLights.add(i);
+    for (LXPoint p : model.groundPoints) {
+      availableLights.add(p.index);
+    }
   }
 
   void loadMorse() {
@@ -116,12 +127,9 @@ public class Spoken extends TemplePattern {
   }
 
   public void newPulser(String message) {
-    double dotLength = dot.getValue();
-    dotLength += (rand.nextDouble() - 0.5) * dotVariance.getValue();
-
     int light = availableLights.remove(rand.nextInt(availableLights.size()));
 
-    MorsePulser pulser = new MorsePulser(lx, light, message, dotLength);
+    MorsePulser pulser = new MorsePulser(lx, light, message);
     pulsers.add(pulser);
     addLayer(pulser);
   }
@@ -159,7 +167,7 @@ public class Spoken extends TemplePattern {
     private int currentCharacter = 0;
     private boolean finished = false;
 
-    public MorsePulser(LX lx, int lightIndex, String message, double dotLength) {
+    public MorsePulser(LX lx, int lightIndex, String message) {
       super(lx);
 
       message = message.toUpperCase();
@@ -179,8 +187,8 @@ public class Spoken extends TemplePattern {
       this.message = message;
       this.morsePattern = morse.toString();
 
-      dotModulator = new SinLFO(0, 100, dotLength).setLooping(false);
-      dashModulator = new SinLFO(0, 100, dotLength * DASH_MULTIPLIER).setLooping(false);
+      dotModulator = new SinLFO(0, 100, dot).setLooping(false);
+      dashModulator = new SinLFO(0, 100, dash).setLooping(false);
 
       addModulator(dotModulator);
       addModulator(dashModulator);
