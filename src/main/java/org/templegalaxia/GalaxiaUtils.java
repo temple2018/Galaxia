@@ -10,10 +10,7 @@ import org.templegalaxia.patterns.gerald.PetalChase;
 import org.templegalaxia.patterns.matty.DebugOrder;
 import org.templegalaxia.patterns.matty.Sparkle;
 import org.templegalaxia.patterns.matty.Teleport;
-import org.templegalaxia.patterns.mcslee.Clouds;
-import org.templegalaxia.patterns.mcslee.Crawlers;
-import org.templegalaxia.patterns.mcslee.Lava;
-import org.templegalaxia.patterns.mcslee.Synchronicity;
+import org.templegalaxia.patterns.mcslee.*;
 import org.templegalaxia.patterns.pandores.Drahciug;
 import org.templegalaxia.patterns.pandores.EiffelTower;
 import org.templegalaxia.patterns.pandores.SpaceshipLoading;
@@ -58,6 +55,8 @@ public class GalaxiaUtils {
     lx.registerPattern(MessagePattern.class);
     lx.registerPattern(StarPattern.class);
     lx.registerPattern(WavePattern.class);
+
+    lx.registerEffect(GroundMute.class);
 
   }
 }
