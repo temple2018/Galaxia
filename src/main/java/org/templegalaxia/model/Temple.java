@@ -12,6 +12,7 @@ public class Temple extends LXModel {
   private static final float ANGLE_BETWEEN_PETALS = PApplet.radians(360 / NUMBER_OF_PETALS);
 
   public final List<RotatableFixture> groundArcs;
+  public final List<LXPoint> groundPoints;
   public final List<Petal> petals;
   public final List<Ring> rings;
   public final List<Spoke> spokes;
@@ -25,6 +26,13 @@ public class Temple extends LXModel {
     this.petals = Collections.unmodifiableList(f.petals);
     this.rings = Collections.unmodifiableList(f.rings);
     this.spokes = Collections.unmodifiableList(f.spokes);
+
+    this.groundPoints = new ArrayList<LXPoint>();
+    for (RotatableFixture groundArc : this.groundArcs) {
+      for (LXPoint p : groundArc.points) {
+        this.groundPoints.add(p);
+      }
+    }
   }
 
   private static class Fixture extends LXAbstractFixture {
