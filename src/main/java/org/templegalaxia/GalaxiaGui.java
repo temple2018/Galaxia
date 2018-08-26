@@ -2,7 +2,8 @@ package org.templegalaxia;
 
 import heronarts.lx.model.LXModel;
 import heronarts.lx.studio.LXStudio;
-import org.templegalaxia.configuration.Outputs;
+import org.templegalaxia.configuration.SiteConfiguration;
+import org.templegalaxia.datagrams.MultiplexedArtNet;
 import org.templegalaxia.model.Temple;
 import org.templegalaxia.patterns.alanpersak.*;
 import org.templegalaxia.patterns.cbarnes.*;
@@ -49,7 +50,7 @@ public class GalaxiaGui extends PApplet {
     }
 
     // Build outputs
-    Outputs outputs = new Outputs(lx, model);
+    MultiplexedArtNet.addDatagramForFixture(lx, model, SiteConfiguration.STATIC_IP, 0);
   }
 
   // NOTE(meawoppl) this wants to be a classpath scan for annotations.

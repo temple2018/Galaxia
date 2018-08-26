@@ -3,7 +3,8 @@ package org.templegalaxia;
 import heronarts.lx.LX;
 import heronarts.lx.LXLoopTask;
 import heronarts.lx.model.LXModel;
-import org.templegalaxia.configuration.Outputs;
+import org.templegalaxia.configuration.SiteConfiguration;
+import org.templegalaxia.datagrams.MultiplexedArtNet;
 import org.templegalaxia.model.Temple;
 
 public class GalaxiaHeadless {
@@ -24,7 +25,7 @@ public class GalaxiaHeadless {
 
     // Initialize LX
     lx = new LX(model);
-    Outputs outputs = new Outputs(lx, model);
+    MultiplexedArtNet.addDatagramForFixture(lx, model, SiteConfiguration.STATIC_IP, 0);
 
     lx.engine.addLoopTask(
         new LXLoopTask() {

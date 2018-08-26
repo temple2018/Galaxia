@@ -27,9 +27,7 @@ public class Petal extends LXModel {
         addPoint(lowerPetal.getPoints().get(lowerItr));
       }
 
-      for (LXPoint p : upperPetal.getPoints()) {
-        addPoint(p);
-      }
+      upperPetal.getPoints().forEach(this::addPoint);
     }
   }
 }
