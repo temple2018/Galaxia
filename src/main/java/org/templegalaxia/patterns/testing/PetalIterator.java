@@ -18,9 +18,8 @@ public class PetalIterator extends TemplePattern {
   }
 
   public void run(double deltaMs) {
-    for (LXPoint p : model.points) {
-      colors[p.index] = LXColor.BLACK;
-    }
+    setAllPoints(LXColor.BLACK);
+
     for (LXPoint p : model.petals.get((int) petalNum.getValuef()).points) {
       colors[p.index] = LXColor.WHITE;
     }

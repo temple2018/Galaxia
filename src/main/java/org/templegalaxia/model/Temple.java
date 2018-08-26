@@ -5,15 +5,20 @@ import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.transform.LXTransform;
 import java.util.*;
+
+import org.templegalaxia.datagrams.MultiplexedArtNet;
 import processing.core.PApplet;
 
 public class Temple extends LXModel {
-  private static final int NUMBER_OF_PETALS = 20;
+  public static final int NUMBER_OF_PETALS = 20;
   private static final float ANGLE_BETWEEN_PETALS = PApplet.radians(360 / NUMBER_OF_PETALS);
 
-  // public final List<RotatableFixture> groundArcs;
   public final List<Petal> petals;
   public final List<Ring> rings;
+
+  public final List<RotatableFixture> lower;
+  public final List<RotatableFixture> upper;
+
   public final List<Spoke> spokes;
 
   public Temple() {
@@ -21,19 +26,23 @@ public class Temple extends LXModel {
 
     TempleFixture f = (TempleFixture) this.fixtures.get(0);
 
-    // this.groundArcs = Collections.unmodifiableList(f.groundArcs);
     this.petals = Collections.unmodifiableList(f.petals);
+
+    this.lower = Collections.unmodifiableList(f.lower);
+    this.upper = Collections.unmodifiableList(f.upper);
+
     this.rings = Collections.unmodifiableList(f.rings);
     this.spokes = Collections.unmodifiableList(f.spokes);
   }
 
   private static class TempleFixture extends LXAbstractFixture {
-    //  private final List<RotatableFixture> groundArcs = new ArrayList<>();
     private final List<Petal> petals = new ArrayList<>();
+    private final List<RotatableFixture> upper = new ArrayList<>();
+    private final List<RotatableFixture> lower = new ArrayList<>();
+
     private final List<Ring> rings = new ArrayList<>();
     private final List<Spoke> spokes = new ArrayList<>();
 
-    private static PointLoader groundArcLoader = new PointLoader("groundArcPoints.csv");
     private static PointLoader lowerPetalLoader = new PointLoader("lowerPetalPoints.csv");
     private static PointLoader upperPetalLoader = new PointLoader("upperPetalPoints.csv");
 
@@ -42,17 +51,14 @@ public class Temple extends LXModel {
 
       for (int i = 0; i < NUMBER_OF_PETALS; ++i) {
         RotatableFixture lowerPetal = new RotatableFixture(transform, lowerPetalLoader);
-        RotatableFixture upperPetal = new RotatableFixture(transform, upperPetalLoader);
-        // RotatableFixture groundArc = new RotatableFixture(transform, groundArcLoader);
+        lower.add(lowerPetal);
 
-        // addPoints(groundArc);
-        // this.groundArcs.add(groundArc);
+        RotatableFixture upperPetal = new RotatableFixture(transform, upperPetalLoader);
+        upper.add(upperPetal);
 
         Petal petal = new Petal(lowerPetal, upperPetal);
         addPoints(petal);
         this.petals.add(petal);
-
-//        this.spokes.add(new Spoke(petal, groundArc));
 
         transform.rotateY(ANGLE_BETWEEN_PETALS);
       }

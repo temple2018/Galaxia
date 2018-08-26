@@ -1,5 +1,6 @@
 package org.templegalaxia;
 
+import heronarts.lx.model.LXFixture;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.studio.LXStudio;
 import org.templegalaxia.configuration.SiteConfiguration;
@@ -35,7 +36,7 @@ public class GalaxiaGui extends PApplet {
 
   public void setup() {
     // Load model
-    LXModel model = new Temple();
+    Temple model = new Temple();
 
     // Initialize LX
     lx = new LXStudio(this, model, MULTITHREADED);
@@ -49,8 +50,14 @@ public class GalaxiaGui extends PApplet {
       lx.openProject(this.saveFile("projects/Default.lxp"));
     }
 
-    // Build outputs
-    MultiplexedArtNet.addDatagramForFixture(lx, model, SiteConfiguration.STATIC_IP, 0);
+    // Add the outputs for the upper petals
+    final int BASE_UPPER_UNIVERSE = 100;
+    final int BASE_LOWER_UNIVERSE = 200;
+
+    for(int i=0; i < Temple.NUMBER_OF_PETALS; i++){
+        MultiplexedArtNet.addDatagramForFixture(lx, model.upper.get(i), SiteConfiguration.STATIC_IP, BASE_UPPER_UNIVERSE + i);
+        MultiplexedArtNet.addDatagramForFixture(lx, model.lower.get(i), SiteConfiguration.STATIC_IP, BASE_LOWER_UNIVERSE + i);
+    }
   }
 
   // NOTE(meawoppl) this wants to be a classpath scan for annotations.
@@ -61,6 +68,8 @@ public class GalaxiaGui extends PApplet {
     lx.registerPattern(PetalIterator.class);
     lx.registerPattern(RingIterator.class);
     lx.registerPattern(Teleport.class);
+    lx.registerPattern(UniverseTester.class);
+
     lx.registerPattern(PetalChase.class);
     lx.registerPattern(Drahciug.class);
     lx.registerPattern(EiffelTower.class);
