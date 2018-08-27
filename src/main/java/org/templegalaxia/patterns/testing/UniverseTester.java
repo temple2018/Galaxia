@@ -13,26 +13,34 @@ import org.templegalaxia.patterns.TemplePattern;
 public class UniverseTester extends TemplePattern {
     private final BoundedParameter universeToLight =
             new BoundedParameter("Universe", 0, 0, model.upper.size() - 1);
-    private final BooleanParameter isUpper = new BooleanParameter("Upper");
+
+    private final BooleanParameter lightUpper = new BooleanParameter("Light Upper");
+    private final BooleanParameter lightLower = new BooleanParameter("Light Lower");
+
+    private final BooleanParameter enable = new BooleanParameter("Enable");
+
 
     public UniverseTester(LX lx) {
         super(lx);
         addParameter(universeToLight);
-        addParameter(isUpper);
+        addParameter(lightUpper);
+        addParameter(lightLower);
+
+        addParameter(enable);
     }
 
     public void run(double deltaMs) {
-        LXFixture fixtureToLight;
-
-        if (isUpper.getValueb()){
-            fixtureToLight = model.upper.get((int) universeToLight.getValue());
-        } else {
-            fixtureToLight = model.lower.get((int) universeToLight.getValue());
-        }
-
         setAllPoints(LXColor.BLACK);
-        for(LXPoint pt: fixtureToLight.getPoints()){
-            colors[pt.index] = LXColor.WHITE;
+        int colorToSet = enable.getValueb() ? LXColor.WHITE : LXColor.BLACK;
+
+        int universeNumber = (int) universeToLight.getValue();
+        if (lightUpper.getValueb()) {
+            setFixtureToColor(model.upper.get(universeNumber), colorToSet);
         }
+
+        if (lightLower.getValueb()) {
+            setFixtureToColor(model.lower.get(universeNumber), colorToSet);
+        }
+        System.out.println(String.format("Universe Number: %d", universeNumber + 1));
     }
 }

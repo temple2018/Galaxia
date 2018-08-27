@@ -25,7 +25,7 @@ public class GalaxiaHeadless {
 
     // Initialize LX
     lx = new LX(model);
-    MultiplexedArtNet.addDatagramForFixture(lx, model, SiteConfiguration.STATIC_IP, 0);
+    MultiplexedArtNet.addDatagramForFixture(lx, model, SiteConfiguration.IPS[0], 0);
 
     lx.engine.addLoopTask(
         new LXLoopTask() {

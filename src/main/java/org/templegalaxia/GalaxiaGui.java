@@ -18,6 +18,8 @@ import org.templegalaxia.patterns.ted.Sines;
 import org.templegalaxia.patterns.testing.*;
 import processing.core.PApplet;
 
+import java.util.Map;
+
 public class GalaxiaGui extends PApplet {
   // System configuration flags
   private static final boolean MULTITHREADED = true;
@@ -50,14 +52,36 @@ public class GalaxiaGui extends PApplet {
       lx.openProject(this.saveFile("projects/Default.lxp"));
     }
 
-    // Add the outputs for the upper petals
-    final int BASE_UPPER_UNIVERSE = 100;
-    final int BASE_LOWER_UNIVERSE = 200;
+//    addTestOutput(19, model);
 
-    for(int i=0; i < Temple.NUMBER_OF_PETALS; i++){
-        MultiplexedArtNet.addDatagramForFixture(lx, model.upper.get(i), SiteConfiguration.STATIC_IP, BASE_UPPER_UNIVERSE + i);
-        MultiplexedArtNet.addDatagramForFixture(lx, model.lower.get(i), SiteConfiguration.STATIC_IP, BASE_LOWER_UNIVERSE + i);
+     addMappedOutputs(model);
+  }
+
+  public void addTestOutput(int universe, Temple model){
+    MultiplexedArtNet.addDatagramForFixture(lx, model, SiteConfiguration.IPS[1], universe);
+  }
+
+  public void addMappedOutputs(Temple model){
+    Map<Integer, String> petalIPMap = SiteConfiguration.getPetalToIPAddress();
+    Map<Integer, Integer> petalToLowerUniMap = SiteConfiguration.getLowerConfigs();
+    Map<Integer, Integer> petalToUpperUniMap = SiteConfiguration.getUpperConfigs();
+
+    // Add the outputs for the upper petals
+    for(int i=0; i < Temple.NUMBER_OF_PETALS; i++) {
+      MultiplexedArtNet.addDatagramForFixture(
+              lx,
+              model.upper.get(i),
+              petalIPMap.get(i),
+              petalToUpperUniMap.get(i));
+
+      MultiplexedArtNet.addDatagramForFixture(
+              lx,
+              model.lower.get(i),
+              petalIPMap.get(i),
+              petalToLowerUniMap.get(i)
+      );
     }
+
   }
 
   // NOTE(meawoppl) this wants to be a classpath scan for annotations.
