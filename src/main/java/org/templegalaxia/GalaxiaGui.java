@@ -1,6 +1,6 @@
 package org.templegalaxia;
 
-import heronarts.lx.model.LXFixture;
+import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.studio.LXStudio;
 import org.templegalaxia.configuration.SiteConfiguration;
@@ -44,14 +44,14 @@ public class GalaxiaGui extends PApplet {
 
     // Universe debugging tool
     // addTestOutput(19, model);
-     addMappedOutputs(model);
+    addMappedOutputs(lx, model);
   }
 
   public void addTestOutput(int universe, Temple model){
     MultiplexedArtNet.addDatagramForFixture(lx, model, SiteConfiguration.IPS[1], universe);
   }
 
-  public static void addMappedOutputs(LXStudio lx, Temple model){
+  public static void addMappedOutputs(LX lx, Temple model){
     Map<Integer, String> petalIPMap = SiteConfiguration.getPetalToIPAddress();
     Map<Integer, Integer> petalToLowerUniMap = SiteConfiguration.getLowerConfigs();
     Map<Integer, Integer> petalToUpperUniMap = SiteConfiguration.getUpperConfigs();
