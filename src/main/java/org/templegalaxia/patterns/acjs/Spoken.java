@@ -31,9 +31,11 @@ public class Spoken extends TemplePattern {
   private static final int DASH_MULTIPLIER = 3;
   private static final int NAME_RELOAD_INTERVAL = 10 * 60 * 1000; // Ten minutes
 
-  public final CompoundParameter density =
-      new CompoundParameter("Lights", 1.0, 0, model.groundPoints.size())
-          .setDescription("Number of lights to use (density).");
+  // NOTE XXX BROKEN !!!  Ground lights were scrapped :(
+  //
+  //  public final CompoundParameter density =
+  //      new CompoundParameter("Lights", 1.0, 0, model.groundPoints.size())
+  //          .setDescription("Number of lights to use (density).");
 
   public final CompoundParameter birthRate =
       new CompoundParameter("Rate", 1.0, 0, 1)
@@ -71,7 +73,8 @@ public class Spoken extends TemplePattern {
   public Spoken(LX lx) {
     super(lx);
 
-    addParameter(density);
+    // MRG BROKEN
+    // addParameter(density);
     addParameter(birthRate);
     addParameter(dot);
     addParameter(dotVariance);
@@ -81,9 +84,10 @@ public class Spoken extends TemplePattern {
     // So we have some data for names regardless.
     allNames.add("Larry Harvey");
 
-    for (LXPoint p : model.groundPoints) {
-      availableLights.add(p.index);
-    }
+    // TODO MRG BROKEN
+    //    for (LXPoint p : model.groundPoints) {
+    //      availableLights.add(p.index);
+    //    }
   }
 
   void loadMorse() {
@@ -140,26 +144,28 @@ public class Spoken extends TemplePattern {
 
   public void run(double deltaMs) {
     // Give each unlit 'slot' a chance to be born.
-    for (int i = 0; i < (int) density.getValue() - pulsers.size(); i++) {
 
-      if (rand.nextDouble() < birthRate.getValue() * deltaMs / 1000) {
-        if (names.isEmpty()) {
-          updateNames();
-        }
-        newPulser(names.remove(0));
-      }
-    }
+    // TODO MRG BROKEN :(
+    //    for (int i = 0; i < (int) density.getValue() - pulsers.size(); i++) {
+    //
+    //      if (rand.nextDouble() < birthRate.getValue() * deltaMs / 1000) {
+    //        if (names.isEmpty()) {
+    //          updateNames();
+    //        }
+    //        newPulser(names.remove(0));
+    //      }
+    //    }
 
     // Garbage collect completed pulsers
     // TODO: Do this with a callback on finish or something.
-    for (Iterator<MorsePulser> iterator = pulsers.iterator(); iterator.hasNext(); ) {
-      MorsePulser pulse = iterator.next();
-      if (pulse.isFinished()) {
-        availableLights.add(pulse.getLightIndex());
-        removeLayer(pulse);
-        iterator.remove();
-      }
-    }
+    //    for (Iterator<MorsePulser> iterator = pulsers.iterator(); iterator.hasNext(); ) {
+    //      MorsePulser pulse = iterator.next();
+    //      if (pulse.isFinished()) {
+    //        availableLights.add(pulse.getLightIndex());
+    //        removeLayer(pulse);
+    //        iterator.remove();
+    //      }
+    //    }
   }
 
   public class MorsePulser extends LXLayer {

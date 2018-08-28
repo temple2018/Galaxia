@@ -56,7 +56,5 @@ public class GalaxiaUtils {
     lx.registerPattern(StarPattern.class);
     lx.registerPattern(WavePattern.class);
 
-    lx.registerEffect(GroundMute.class);
-
   }
 }

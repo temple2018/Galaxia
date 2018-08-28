@@ -39,7 +39,7 @@ public class GalaxiaGui extends PApplet {
     // Open the default project if none is saved
     if (lx.getProject() == null) {
       System.out.println("Loading the Default project");
-      lx.openProject(this.saveFile("projects/Default.lxp"));
+      lx.openProject(this.saveFile("projects/matty.lxp"));
     }
 
     // Universe debugging tool
