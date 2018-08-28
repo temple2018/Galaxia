@@ -1,3 +1,5 @@
+# NOT ACCEPTING FURTHER PR's  TY!
+
 # Temple Galaxia
 
 ![Screenshot](/assets/GalaxiaScreenshot.png "Example of Galaxia in LX.")
