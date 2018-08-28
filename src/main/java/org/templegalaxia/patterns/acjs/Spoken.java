@@ -10,9 +10,10 @@ import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.FunctionalParameter;
 import heronarts.lx.parameter.LXParameter;
-import heronarts.lx.studio.LXStudio;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.*;
 import java.util.*;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -65,7 +66,7 @@ public class Spoken extends TemplePattern {
   private final Random rand = new Random();
 
   private long nameLastLoadTime = 0;
-  private String[] allNames = new String[0];
+  private List<String> allNames = new ArrayList<String>();
 
   public Spoken(LX lx) {
     super(lx);
@@ -78,8 +79,7 @@ public class Spoken extends TemplePattern {
     loadMorse();
 
     // So we have some data for names regardless.
-    allNames = new String[1];
-    allNames[0] = "Larry Harvey";
+    allNames.add("Larry Harvey");
 
     for (LXPoint p : model.groundPoints) {
       availableLights.add(p.index);
@@ -107,23 +107,27 @@ public class Spoken extends TemplePattern {
   void updateNames() {
     // Only reload after a set interval has passed, otherwise use the last-loaded name set.
     if (nameLastLoadTime + NAME_RELOAD_INTERVAL < System.currentTimeMillis()) {
-      // Load names using Processing's mechanism to do so
-      // Not super happy with the cast but I can't find a better way to get access to
-      // the PApplet and we can't access the method statically.
-      String[] newNames = ((LXStudio) lx).applet.loadStrings(NAME_DATA);
+      try {
+        List<String> newNames = Files.readAllLines(Paths.get(NAME_DATA), Charset.forName("UTF-8"));
+        if (null != newNames && newNames.size() > 0) {
+          allNames = newNames;
+        }
 
-      if (null != newNames && newNames.length > 0) {
-        allNames = newNames;
+        System.out.println("Reloaded");
+        for (String name : allNames) {
+          System.out.println(name);
+        }
+
+        nameLastLoadTime = System.currentTimeMillis();
+
+      } catch (IOException iox) {
+        System.err.println("Error loading names: " + iox.getMessage());
       }
-
-      System.out.println("Reloaded");
-      for (int i = 0; i < allNames.length; i++) System.out.println(allNames[i]);
-
-      nameLastLoadTime = System.currentTimeMillis();
     }
 
-    names.addAll(Arrays.asList(allNames));
+    names.addAll(allNames);
     Collections.shuffle(names);
+
   }
 
   public void newPulser(String message) {
@@ -137,9 +141,11 @@ public class Spoken extends TemplePattern {
   public void run(double deltaMs) {
     // Give each unlit 'slot' a chance to be born.
     for (int i = 0; i < (int) density.getValue() - pulsers.size(); i++) {
-      if (names.size() == 0) updateNames();
 
       if (rand.nextDouble() < birthRate.getValue() * deltaMs / 1000) {
+        if (names.isEmpty()) {
+          updateNames();
+        }
         newPulser(names.remove(0));
       }
     }
