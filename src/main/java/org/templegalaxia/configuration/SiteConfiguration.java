@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class SiteConfiguration {
   public static final String LED_0_IP = "192.168.1.20";
-  // public static final String LED_1_IP = "192.168.1.21";
-  public static final String LED_1_IP = "10.0.0.1";
+   public static final String LED_1_IP = "192.168.1.21";
+//  public static final String LED_1_IP = "10.0.0.1";
 
   public static final String[] IPS = new String[] {LED_0_IP, LED_1_IP};
 
