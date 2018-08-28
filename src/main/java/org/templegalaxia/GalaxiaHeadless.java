@@ -23,14 +23,14 @@ public class GalaxiaHeadless {
     System.out.println("Starting 'headless' Galaxia");
 
     // Load model
-    LXModel model = new Temple();
+    Temple model = new Temple();
 
     // Initialize LX
     lx = new LX(model);
     GalaxiaUtils.registerPatterns(lx);
 
     // TODO (meawoppl) Fix up outputs here
-    // Outputs outputs = new Outputs(lx, model);
+    GalaxiaGui.addMappedOutputs(lx, model);
 
     lx.openProject(new File("projects/Default.lxp"));
 

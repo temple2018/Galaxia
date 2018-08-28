@@ -51,7 +51,7 @@ public class GalaxiaGui extends PApplet {
     MultiplexedArtNet.addDatagramForFixture(lx, model, SiteConfiguration.IPS[1], universe);
   }
 
-  public void addMappedOutputs(Temple model){
+  public static void addMappedOutputs(LXStudio lx, Temple model){
     Map<Integer, String> petalIPMap = SiteConfiguration.getPetalToIPAddress();
     Map<Integer, Integer> petalToLowerUniMap = SiteConfiguration.getLowerConfigs();
     Map<Integer, Integer> petalToUpperUniMap = SiteConfiguration.getUpperConfigs();
@@ -71,7 +71,6 @@ public class GalaxiaGui extends PApplet {
               petalToLowerUniMap.get(i)
       );
     }
-
   }
 
   public void initialize(LXStudio lx, LXStudio.UI ui) {
