@@ -1,11 +1,13 @@
 package org.templegalaxia;
 
 import heronarts.lx.LX;
-import heronarts.lx.LXLoopTask;
+import heronarts.lx.LXChannelBus;
 import heronarts.lx.model.LXModel;
 import org.templegalaxia.configuration.SiteConfiguration;
 import org.templegalaxia.datagrams.MultiplexedArtNet;
 import org.templegalaxia.model.Temple;
+
+import java.io.File;
 
 public class GalaxiaHeadless {
   private long lastHeartBeat = System.currentTimeMillis();
@@ -25,19 +27,25 @@ public class GalaxiaHeadless {
 
     // Initialize LX
     lx = new LX(model);
-    MultiplexedArtNet.addDatagramForFixture(lx, model, SiteConfiguration.IPS[0], 0);
+    GalaxiaUtils.registerPatterns(lx);
 
-    lx.engine.addLoopTask(
-        new LXLoopTask() {
-          @Override
-          public void loop(double v) {
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - lastHeartBeat > 1000.0) {
-              lastHeartBeat = currentTime;
-              System.out.println(lx.engine.getDefaultChannel().getOscAddress());
-            }
-          }
-        });
+    // TODO (meawoppl) Fix up outputs here
+    // Outputs outputs = new Outputs(lx, model);
+
+    lx.openProject(new File("projects/Default.lxp"));
+
+    LXChannelBus background = lx.engine.getChannel("Background");
+    LXChannelBus ground = lx.engine.getChannel("Ground");
+    LXChannelBus pattern = lx.engine.getChannel("Pattern");
+
+    if (background == null || ground == null || pattern == null) {
+      System.err.println("Expected channels not found, did Default.lxp load properly?");
+    } else {
+      // NOTE(mcslee): if there is a need to manually override the brightness levels set in the project file
+      // pattern.fader.setNormalized(1.);
+      // ground.fader.setNormalized(1.);
+      // background.fader.setNormalized(0.5);
+    }
 
     // Kick it!
     System.out.println("Starting engine!");

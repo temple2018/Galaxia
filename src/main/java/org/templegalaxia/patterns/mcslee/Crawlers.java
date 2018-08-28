@@ -21,7 +21,7 @@ public class Crawlers extends TemplePattern {
 
   public final CompoundParameter period =
       (CompoundParameter)
-          new CompoundParameter("Period", 9000, 2000, 27000)
+          new CompoundParameter("Period", 9000, 2000, 57000)
               .setUnits(LXParameter.Units.MILLISECONDS)
               .setDescription("Period of oscillation of position");
 
@@ -42,7 +42,7 @@ public class Crawlers extends TemplePattern {
 
   public final CompoundParameter sizeRate =
       (CompoundParameter)
-          new CompoundParameter("SzRate", 13000, 2000, 27000)
+          new CompoundParameter("SzRate", 13000, 2000, 57000)
               .setUnits(LXParameter.Units.MILLISECONDS)
               .setDescription("Period of change in the size");
 

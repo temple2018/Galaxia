@@ -6,16 +6,6 @@ import heronarts.lx.studio.LXStudio;
 import org.templegalaxia.configuration.SiteConfiguration;
 import org.templegalaxia.datagrams.MultiplexedArtNet;
 import org.templegalaxia.model.Temple;
-import org.templegalaxia.patterns.alanpersak.*;
-import org.templegalaxia.patterns.cbarnes.*;
-import org.templegalaxia.patterns.gerald.*;
-import org.templegalaxia.patterns.matty.*;
-import org.templegalaxia.patterns.mcslee.*;
-import org.templegalaxia.patterns.pandores.*;
-import org.templegalaxia.patterns.ping.Swirl;
-import org.templegalaxia.patterns.ted.RingTest;
-import org.templegalaxia.patterns.ted.Sines;
-import org.templegalaxia.patterns.testing.*;
 import processing.core.PApplet;
 
 import java.util.Map;
@@ -52,8 +42,8 @@ public class GalaxiaGui extends PApplet {
       lx.openProject(this.saveFile("projects/Default.lxp"));
     }
 
-//    addTestOutput(19, model);
-
+    // Universe debugging tool
+    // addTestOutput(19, model);
      addMappedOutputs(model);
   }
 
@@ -84,36 +74,8 @@ public class GalaxiaGui extends PApplet {
 
   }
 
-  // NOTE(meawoppl) this wants to be a classpath scan for annotations.
   public void initialize(LXStudio lx, LXStudio.UI ui) {
-    lx.registerPattern(MoveXPosition.class);
-    lx.registerPattern(MoveYPosition.class);
-    lx.registerPattern(MoveZPosition.class);
-    lx.registerPattern(PetalIterator.class);
-    lx.registerPattern(RingIterator.class);
-    lx.registerPattern(Teleport.class);
-    lx.registerPattern(UniverseTester.class);
-
-    lx.registerPattern(PetalChase.class);
-    lx.registerPattern(Drahciug.class);
-    lx.registerPattern(EiffelTower.class);
-    lx.registerPattern(SpaceshipLoading.class);
-    lx.registerPattern(Sparkle.class);
-    lx.registerPattern(DebugOrder.class);
-    lx.registerPattern(Swirl.class);
-    lx.registerPattern(RingTest.class);
-    lx.registerPattern(Sines.class);
-
-    lx.registerPattern(Crawlers.class);
-    lx.registerPattern(Synchronicity.class);
-    lx.registerPattern(Clouds.class);
-    lx.registerPattern(Lava.class);
-    lx.registerPattern(RingFall.class);
-
-    // Alan Persak's patterns:
-    lx.registerPattern(MessagePattern.class);
-    lx.registerPattern(StarPattern.class);
-    lx.registerPattern(WavePattern.class);
+    GalaxiaUtils.registerPatterns(lx);
   }
 
   public void onUIReady(LXStudio lx, LXStudio.UI ui) {
