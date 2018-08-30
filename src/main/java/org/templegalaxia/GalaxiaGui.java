@@ -1,57 +1,87 @@
 package org.templegalaxia;
 
+import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.studio.LXStudio;
+import org.templegalaxia.configuration.SiteConfiguration;
+import org.templegalaxia.datagrams.MultiplexedArtNet;
 import org.templegalaxia.model.Temple;
-import org.templegalaxia.patterns.gerald.*;
-import org.templegalaxia.patterns.matty.*;
-import org.templegalaxia.patterns.testing.*;
 import processing.core.PApplet;
 
+import java.util.Map;
 
 public class GalaxiaGui extends PApplet {
-    // System configuration flags
-    private static final boolean MULTITHREADED = true;
-    private static final boolean RESIZEABLE = true;
+  // System configuration flags
+  private static final boolean MULTITHREADED = true;
+  private static final boolean RESIZEABLE = true;
 
-    static public void main(String args[]) {
-        PApplet.main(new String[]{"--present", GalaxiaGui.class.getName()});
+  LXModel model;
+  LXStudio lx;
+
+  public static void main(String args[]) {
+    PApplet.main(new String[] {GalaxiaGui.class.getName()});
+  }
+
+  public void settings() {
+    size(displayWidth, displayHeight, P3D);
+  }
+
+  public void setup() {
+    // Load model
+    Temple model = new Temple();
+
+    // Initialize LX
+    lx = new LXStudio(this, model, MULTITHREADED);
+
+    // Configure UI
+    lx.ui.setResizable(RESIZEABLE);
+
+    // Open the default project if none is saved
+    if (lx.getProject() == null) {
+      System.out.println("Loading the Default project");
+      lx.openProject(this.saveFile("projects/matty.lxp"));
     }
 
-    public void settings() {
-        size(displayWidth, displayHeight, P3D);
+    // Universe debugging tool
+    // addTestOutput(19, model);
+    addMappedOutputs(lx, model);
+  }
+
+  public void addTestOutput(int universe, Temple model){
+    MultiplexedArtNet.addDatagramForFixture(lx, model, SiteConfiguration.IPS[1], universe);
+  }
+
+  public static void addMappedOutputs(LX lx, Temple model){
+    Map<Integer, String> petalIPMap = SiteConfiguration.getPetalToIPAddress();
+    Map<Integer, Integer> petalToLowerUniMap = SiteConfiguration.getLowerConfigs();
+    Map<Integer, Integer> petalToUpperUniMap = SiteConfiguration.getUpperConfigs();
+
+    // Add the outputs for the upper petals
+    for(int i=0; i < Temple.NUMBER_OF_PETALS; i++) {
+      MultiplexedArtNet.addDatagramForFixture(
+              lx,
+              model.upper.get(i),
+              petalIPMap.get(i),
+              petalToUpperUniMap.get(i));
+
+      MultiplexedArtNet.addDatagramForFixture(
+              lx,
+              model.lower.get(i),
+              petalIPMap.get(i),
+              petalToLowerUniMap.get(i)
+      );
     }
+  }
 
-    public void setup() {
-        startupInfo();
+  public void initialize(LXStudio lx, LXStudio.UI ui) {
+    GalaxiaUtils.registerPatterns(lx);
+  }
 
-        // Load model
-        LXModel model = new Temple(this);
+  public void onUIReady(LXStudio lx, LXStudio.UI ui) {
+    lx.ui.preview.pointCloud.setPointSize(20);
+  }
 
-        // Initialize LX
-        LXStudio lx = new LXStudio(this, model, MULTITHREADED);
-
-        // Configure UI
-        lx.ui.setResizable(RESIZEABLE);
-        lx.ui.preview.pointCloud.setPointSize(20);
-    }
-
-    public void initialize(LXStudio lx, LXStudio.UI ui) {
-        lx.registerPattern(MoveXPosition.class);
-        lx.registerPattern(MoveYPosition.class);
-        lx.registerPattern(MoveZPosition.class);
-        lx.registerPattern(PetalIterator.class);
-        lx.registerPattern(Teleport.class);
-        lx.registerPattern(PetalChase.class);
-        lx.registerPattern(Sparkle.class);
-        lx.registerPattern(Spin.class);
-    }
-
-    public void draw() {
-        // Handled by LXStudio
-    }
-
-    private void startupInfo() {
-        PApplet.println("Running sketch from ", sketchPath());
-    }
+  public void draw() {
+    // Handled by LXStudio
+  }
 }

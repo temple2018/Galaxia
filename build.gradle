@@ -1,7 +1,6 @@
 apply plugin: 'application'
 apply plugin: 'java'
 
-
 dependencies {
     compile fileTree(dir: 'lib', include: ['*.jar'])
 
@@ -19,4 +18,9 @@ jar {
                 "Implementation-Version": "0.1",
                 "Main-Class": "org.templegalaxia.GalaxiaGui")
     }
+}
+
+task headlessRun(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'org.templegalaxia.GalaxiaHeadless'
 }
